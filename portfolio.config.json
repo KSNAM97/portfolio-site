@@ -23,6 +23,26 @@
       "image": "/topology.webp",
       "featured": true,
       "sort": 0
+    },
+    {
+      "slug": "network-wiki",
+      "title_ko": "Network Wiki (GitBook)",
+      "title_en": "Network Wiki (GitBook)",
+      "summary_ko": "Cisco IOS / IOS XE 기반 네트워크 핵심 개념과 설정 정리. VLAN, 라우팅(EIGRP·OSPF), ACL, VPN, STP, EtherChannel, 게이트웨이 이중화까지 27개 문서.",
+      "summary_en": "Notes on core networking concepts and Cisco IOS / IOS XE configuration: VLAN, routing (EIGRP, OSPF), ACL, VPN, STP, EtherChannel and gateway redundancy, in 27 documents.",
+      "tags": ["Cisco IOS", "OSPF", "EIGRP", "VLAN", "ACL", "VPN"],
+      "url": "https://ksnam97.gitbook.io/network_wiki/",
+      "sort": 10
+    },
+    {
+      "slug": "system-wiki",
+      "title_ko": "System Wiki (GitBook)",
+      "title_en": "System Wiki (GitBook)",
+      "summary_ko": "Rocky Linux 9 기반 시스템 관리부터 쉘 스크립트, DB, Docker, Kubernetes, AWS, Python까지 7개 카테고리 90개 문서.",
+      "summary_en": "System engineering notes from Rocky Linux 9 administration to shell scripting, databases, Docker, Kubernetes, AWS and Python: 7 categories, 90 documents.",
+      "tags": ["Rocky Linux", "Docker", "Kubernetes", "Shell", "AWS", "Python"],
+      "url": "https://ksnam97.gitbook.io/system_wiki/",
+      "sort": 11
     }
   ],
   "overrides": {
