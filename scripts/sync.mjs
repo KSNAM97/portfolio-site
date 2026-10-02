@@ -1,5 +1,5 @@
 // Push portfolio.config.json (+ live GitHub repo data) to Supabase.
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 const cfg = JSON.parse(readFileSync(new URL('../portfolio.config.json', import.meta.url)))
@@ -46,11 +46,11 @@ await sb('projects?on_conflict=slug', { method: 'POST', body: JSON.stringify(row
 await sb(`projects?slug=not.in.(${rows.map((r) => `"${r.slug}"`).join(',')})`, { method: 'DELETE' })
 
 // files shown in the detail view.
-// 1) fallback: content/<project-slug>/<path> committed in this repo
+// 1) optional fallback: content/<project-slug>/<path> committed in this repo (the folder may be absent)
 const norm = (t) => t.replace(/^﻿/, '').replace(/\r\n/g, '\n')
 const dir = fileURLToPath(new URL('../content/', import.meta.url))
 const byProject = {}
-for (const p of readdirSync(dir, { recursive: true }).map((x) => x.replaceAll('\\', '/'))) {
+for (const p of (existsSync(dir) ? readdirSync(dir, { recursive: true }) : []).map((x) => x.replaceAll('\\', '/'))) {
   if (!p.includes('/') || !statSync(dir + p).isFile()) continue
   const [project, ...rest] = p.split('/')
   ;(byProject[project] ||= {})[rest.join('/')] = norm(readFileSync(dir + p, 'utf8'))
