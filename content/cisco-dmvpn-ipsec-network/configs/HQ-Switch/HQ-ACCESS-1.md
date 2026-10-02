@@ -1,0 +1,76 @@
+# SW-Access1
+
+> HQ 액세스 스위치 / VLAN10(Data) · VTP Client
+
+---
+
+## Configuration
+
+```
+enable
+configure terminal
+!
+hostname SW-Access1
+!
+no ip domain-lookup
+!
+line console 0
+ logging synchronous
+ exec-timeout 0 0
+ length 0
+ exit
+!
+line vty 0 4
+ logging synchronous
+ exec-timeout 0 0
+ length 0
+ exit
+!
+end
+!
+write memory
+!
+configure terminal
+!
+! ===== VTP v3 client (VLAN은 Core 서버에서 받아옴) =====
+vtp password Cisco123     ! Core와 동일 패스워드여야 도메인 가입
+vtp domain HQ             ! Core와 동일 도메인
+vtp version 3
+vtp mode client           ! client → 로컬에서 VLAN 생성/수정 불가, 수신만
+!
+! ===== Core 업링크 트렁크 (gi0/0=Core1, gi0/1=Core2 방향) =====
+interface range gi0/0 - 1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40,99  ! 허용 VLAN 제한
+ no shutdown
+!
+enable secret cisco                             ! enable 암호 (해시 저장)
+!
+line vty 0 15
+  password cisco                                ! 원격 접속 비번 (평문, 랩용)
+  login
+!
+interface vlan 99
+ ip address 10.10.99.11 255.255.255.0
+ no shutdown
+!
+ ip default-gateway 10.10.99.1                  ! L2 스위치라 라우팅 없음 → HSRP 가상IP를 GW로
+!
+spanning-tree mode rapid-pvst                   ! Core와 동일 모드 (RPVST+)
+!
+! ===== STP cost 튜닝 (업링크 우선순위) =====
+interface gi0/0
+ spanning-tree vlan 10 cost 10           ! VLAN10은 gi0/0(Core1=vlan10 루트) 경로를 저비용 → 우선 사용
+interface gi0/1
+ spanning-tree vlan 10 cost 100          ! gi0/1(Core2)은 고비용 → 백업 경로
+
+!
+interface range gi0/2-3
+ switchport mode access
+ switchport access vlan 10                ! Access1은 vlan10(Data) 담당
+ spanning-tree bpduguard enable           ! 단말 포트에 BPDU 들어오면 차단 (루프/스위치 오접속 방지)
+ spanning-tree portfast                     ! 단말 포트 즉시 forwarding (STP 대기 생략)
+ no shutdown
+!
+```

@@ -1,5 +1,6 @@
 // Push portfolio.config.json (+ live GitHub repo data) to Supabase.
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 const cfg = JSON.parse(readFileSync(new URL('../portfolio.config.json', import.meta.url)))
 const { GITHUB_TOKEN } = process.env
@@ -43,4 +44,20 @@ await sb('site?on_conflict=key', { method: 'POST', body: JSON.stringify({ key: '
 await sb('projects?on_conflict=slug', { method: 'POST', body: JSON.stringify(rows) })
 // drop rows whose repo was removed/excluded
 await sb(`projects?slug=not.in.(${rows.map((r) => `"${r.slug}"`).join(',')})`, { method: 'DELETE' })
-console.log(`synced ${rows.length} projects`)
+
+// files shown in the detail view: content/<project-slug>/<path>
+const dir = fileURLToPath(new URL('../content/', import.meta.url))
+const files = readdirSync(dir, { recursive: true })
+  .map((p) => p.replaceAll('\\', '/'))
+  .filter((p) => p.includes('/') && statSync(dir + p).isFile())
+  .map((p) => {
+    const [project, ...rest] = p.split('/')
+    const content = readFileSync(dir + p, 'utf8').replace(/^﻿/, '').replace(/\r\n/g, '\n')
+    return { project, path: rest.join('/'), content }
+  })
+await sb('project_files?on_conflict=project,path', { method: 'POST', body: JSON.stringify(files) })
+for (const project of new Set(files.map((f) => f.project))) {
+  const keep = files.filter((f) => f.project === project).map((f) => `"${f.path}"`).join(',')
+  await sb(`project_files?project=eq.${project}&path=not.in.(${keep})`, { method: 'DELETE' })
+}
+console.log(`synced ${rows.length} projects, ${files.length} files`)

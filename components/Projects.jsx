@@ -8,6 +8,53 @@ const get = (path) =>
     headers: { apikey: KEY, ...(KEY?.startsWith('eyJ') && { Authorization: `Bearer ${KEY}` }) }
   }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json() })
 
+// file tree + viewer for one project (rows come from project_files, filled by sync)
+function Files({ slug }) {
+  const [paths, setPaths] = useState(null)
+  const [sel, setSel] = useState(null)
+  const [text, setText] = useState('')
+  const q = `project_files?project=eq.${encodeURIComponent(slug)}`
+
+  useEffect(() => {
+    get(`${q}&select=path&order=path`)
+      .then((r) => { setPaths(r.map((x) => x.path)); setSel(r[0]?.path ?? null) })
+      .catch(() => setPaths([]))
+  }, [slug])
+
+  useEffect(() => {
+    if (!sel) return
+    setText('…')
+    get(`${q}&path=eq.${encodeURIComponent(sel)}&select=content`)
+      .then((r) => setText(r[0]?.content ?? ''))
+      .catch(() => setText('Failed to load file'))
+  }, [sel])
+
+  if (!paths) return <p>Loading…</p>
+  if (!paths.length) return <p>No files.</p>
+  const groups = {}
+  paths.forEach((p) => {
+    const i = p.lastIndexOf('/')
+    ;(groups[i < 0 ? '/' : p.slice(0, i)] ||= []).push(p)
+  })
+  return (
+    <div className="files">
+      <nav>
+        {Object.entries(groups).map(([dir, list]) => (
+          <div key={dir}>
+            <div className="dir">{dir === '/' ? '(root)' : dir + '/'}</div>
+            {list.map((p) => (
+              <button key={p} className={p === sel ? 'on' : ''} onClick={() => setSel(p)}>
+                {p.slice(p.lastIndexOf('/') + 1)}
+              </button>
+            ))}
+          </div>
+        ))}
+      </nav>
+      <pre>{text}</pre>
+    </div>
+  )
+}
+
 export default function Projects() {
   const [lang, setLang] = useState('ko')
   const [profile, setProfile] = useState(null)
@@ -21,6 +68,7 @@ export default function Projects() {
   }, [])
 
   const [open, setOpen] = useState(null)
+  const [view, setView] = useState('overview')
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && setOpen(null)
     window.addEventListener('keydown', onKey)
@@ -50,8 +98,13 @@ export default function Projects() {
           <a
             key={p.slug}
             className={`card${p.featured ? ' featured' : ''}`}
-            href={p.url || undefined}
-            onClick={p.image ? (e) => { e.preventDefault(); setOpen(p) } : undefined}
+            href={p.image ? undefined : p.url || undefined}
+            {...(p.image && {
+              role: 'button',
+              tabIndex: 0,
+              onClick: () => { setOpen(p); setView('overview') },
+              onKeyDown: (e) => e.key === 'Enter' && (setOpen(p), setView('overview'))
+            })}
           >
             {p.image && <img src={p.image} alt={t(p, 'title')} loading="lazy" />}
             <h4>{t(p, 'title')}</h4>
@@ -67,11 +120,22 @@ export default function Projects() {
           <div className="modal-body" onClick={(e) => e.stopPropagation()}>
             <button className="modal-x" aria-label="close" onClick={() => setOpen(null)}>×</button>
             <h3>{t(open, 'title')}</h3>
-            <img src={open.image} alt={t(open, 'title')} />
-            <p>{t(open, 'summary')}</p>
-            <ul className="tags">{open.tags.map((x) => <li key={x}>{x}</li>)}</ul>
-            {open.url && (
-              <p><a href={open.url}>{lang === 'ko' ? 'GitHub에서 보기' : 'View on GitHub'} →</a></p>
+            <div className="tabs">
+              <button className={view === 'overview' ? 'on' : ''} onClick={() => setView('overview')}>
+                {lang === 'ko' ? '개요' : 'Overview'}
+              </button>
+              <button className={view === 'files' ? 'on' : ''} onClick={() => setView('files')}>
+                {lang === 'ko' ? '파일 (컨피그·문서)' : 'Files (configs, docs)'}
+              </button>
+            </div>
+            {view === 'overview' ? (
+              <>
+                <img src={open.image} alt={t(open, 'title')} />
+                <p>{t(open, 'summary')}</p>
+                <ul className="tags">{open.tags.map((x) => <li key={x}>{x}</li>)}</ul>
+              </>
+            ) : (
+              <Files slug={open.slug} />
             )}
           </div>
         </div>
