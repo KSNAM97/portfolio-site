@@ -60,7 +60,7 @@ function Detail({ p, t, lang }) {
       .then((r) => {
         const stored = r[0]?.value ?? null
         setJira(stored)
-        if (stored) fetch('/api/jira-progress').then((x) => (x.ok ? x.json() : null)).then((live) => live && setJira(live)).catch(() => {})
+        if (stored) fetch('/api/jira-progress').then((x) => (x.ok ? x.json() : null)).then((live) => live && live.total > 0 && setJira(live)).catch(() => {})
       })
       .catch(() => setJira(null))
   }, [p.slug])

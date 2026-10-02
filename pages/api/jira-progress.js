@@ -13,6 +13,11 @@ export default async function handler(req, res) {
     Accept: 'application/json'
   }
   try {
+    // wrong email/token/base URL makes Jira treat the request as anonymous: searches then "succeed" with 0 issues.
+    // Check who we are first so that case is an error (never cached, never shown as 0%).
+    const me = await fetch(`${base}/rest/api/3/myself`, { headers })
+    if (!me.ok || !(await me.json()).accountId) return res.status(502).json({ error: 'jira-auth' })
+
     const issues = []
     let next
     do {
