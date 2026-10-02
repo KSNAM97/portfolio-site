@@ -8,18 +8,17 @@ const get = (path) =>
     headers: { apikey: KEY, ...(KEY?.startsWith('eyJ') && { Authorization: `Bearer ${KEY}` }) }
   }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json() })
 
-// file tree + viewer for one project (rows come from project_files, filled by sync)
-function Files({ slug }) {
-  const [paths, setPaths] = useState(null)
-  const [sel, setSel] = useState(null)
+// detail view: left table of contents (overview + files), right content.
+// files come from project_files, filled by scripts/sync.mjs from content/<slug>/
+function Detail({ p, t, lang }) {
+  const [paths, setPaths] = useState([])
+  const [sel, setSel] = useState('') // '' = overview
   const [text, setText] = useState('')
-  const q = `project_files?project=eq.${encodeURIComponent(slug)}`
+  const q = `project_files?project=eq.${encodeURIComponent(p.slug)}`
 
   useEffect(() => {
-    get(`${q}&select=path&order=path`)
-      .then((r) => { setPaths(r.map((x) => x.path)); setSel(r[0]?.path ?? null) })
-      .catch(() => setPaths([]))
-  }, [slug])
+    get(`${q}&select=path`).then((r) => setPaths(r.map((x) => x.path))).catch(() => setPaths([]))
+  }, [p.slug])
 
   useEffect(() => {
     if (!sel) return
@@ -29,28 +28,40 @@ function Files({ slug }) {
       .catch(() => setText('Failed to load file'))
   }, [sel])
 
-  if (!paths) return <p>Loading…</p>
-  if (!paths.length) return <p>No files.</p>
+  const dirOf = (x) => x.slice(0, Math.max(x.lastIndexOf('/'), 0))
   const groups = {}
-  paths.forEach((p) => {
-    const i = p.lastIndexOf('/')
-    ;(groups[i < 0 ? '/' : p.slice(0, i)] ||= []).push(p)
-  })
+  ;[...paths].sort().forEach((x) => (groups[dirOf(x)] ||= []).push(x))
+  const dirs = Object.keys(groups).sort((a, b) => (a === '') - (b === '') || a.localeCompare(b))
+  const rootFirst = ['', ...dirs.filter((d) => d !== '')].filter((d) => groups[d])
+
   return (
     <div className="files">
       <nav>
-        {Object.entries(groups).map(([dir, list]) => (
+        <button className={!sel ? 'on' : ''} onClick={() => setSel('')}>
+          {lang === 'ko' ? '개요' : 'Overview'}
+        </button>
+        {rootFirst.map((dir) => (
           <div key={dir}>
-            <div className="dir">{dir === '/' ? '(root)' : dir + '/'}</div>
-            {list.map((p) => (
-              <button key={p} className={p === sel ? 'on' : ''} onClick={() => setSel(p)}>
-                {p.slice(p.lastIndexOf('/') + 1)}
+            {dir && <div className="dir" style={{ paddingLeft: 8 }}>{dir}/</div>}
+            {groups[dir].map((x) => (
+              <button key={x} className={x === sel ? 'on' : ''} style={dir ? { paddingLeft: 20 } : undefined} onClick={() => setSel(x)}>
+                {x.slice(x.lastIndexOf('/') + 1)}
               </button>
             ))}
           </div>
         ))}
       </nav>
-      <pre>{text}</pre>
+      <div className="pane">
+        {sel ? (
+          <pre>{text}</pre>
+        ) : (
+          <>
+            <img src={p.image} alt={t(p, 'title')} />
+            <p>{t(p, 'summary')}</p>
+            <ul className="tags">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -68,7 +79,6 @@ export default function Projects() {
   }, [])
 
   const [open, setOpen] = useState(null)
-  const [view, setView] = useState('overview')
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && setOpen(null)
     window.addEventListener('keydown', onKey)
@@ -102,8 +112,8 @@ export default function Projects() {
             {...(p.image && {
               role: 'button',
               tabIndex: 0,
-              onClick: () => { setOpen(p); setView('overview') },
-              onKeyDown: (e) => e.key === 'Enter' && (setOpen(p), setView('overview'))
+              onClick: () => setOpen(p),
+              onKeyDown: (e) => e.key === 'Enter' && setOpen(p)
             })}
           >
             {p.image && <img src={p.image} alt={t(p, 'title')} loading="lazy" />}
@@ -120,23 +130,7 @@ export default function Projects() {
           <div className="modal-body" onClick={(e) => e.stopPropagation()}>
             <button className="modal-x" aria-label="close" onClick={() => setOpen(null)}>×</button>
             <h3>{t(open, 'title')}</h3>
-            <div className="tabs">
-              <button className={view === 'overview' ? 'on' : ''} onClick={() => setView('overview')}>
-                {lang === 'ko' ? '개요' : 'Overview'}
-              </button>
-              <button className={view === 'files' ? 'on' : ''} onClick={() => setView('files')}>
-                {lang === 'ko' ? '파일 (컨피그·문서)' : 'Files (configs, docs)'}
-              </button>
-            </div>
-            {view === 'overview' ? (
-              <>
-                <img src={open.image} alt={t(open, 'title')} />
-                <p>{t(open, 'summary')}</p>
-                <ul className="tags">{open.tags.map((x) => <li key={x}>{x}</li>)}</ul>
-              </>
-            ) : (
-              <Files slug={open.slug} />
-            )}
+            <Detail key={open.slug} p={open} t={t} lang={lang} />
           </div>
         </div>
       )}

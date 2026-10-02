@@ -82,12 +82,12 @@ img.next-image {
 .modal-body img { width: 100%; height: auto; border-radius: 8px; border: 1px solid #8884 }
 .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; font-size: 1.8rem; line-height: 1; cursor: pointer; color: inherit }
 @media (prefers-color-scheme: dark) { .modal-body { background: #15181d; color: #e6e8eb } .modal-body img { background: #fff } }
-.tabs { display: flex; gap: 6px; margin-bottom: 12px }
-.tabs button { background: none; color: inherit; border: 1px solid #8884; border-radius: 8px; padding: 4px 12px; cursor: pointer }
-.tabs button.on, .files nav button.on { background: #0074de; color: #fff; border-color: #0074de }
 .files { display: grid; grid-template-columns: 220px 1fr; gap: 12px; min-height: 50vh }
 .files nav { max-height: 62vh; overflow: auto; font-size: .85rem }
 .files .dir { margin: 8px 0 2px; opacity: .6; word-break: break-all }
 .files nav button { display: block; width: 100%; text-align: left; background: none; color: inherit; border: 0; border-radius: 6px; padding: 3px 8px; cursor: pointer }
-.files pre { margin: 0; max-height: 62vh; overflow: auto; background: #8881; border-radius: 8px; padding: 12px; font-size: .78rem; white-space: pre; tab-size: 4 }
+.files .pane { max-height: 62vh; overflow: auto; min-width: 0 }
+.files .pane img { width: 100%; height: auto; border-radius: 8px; border: 1px solid #8884 }
+.files nav button.on { background: #0074de; color: #fff }
+.files pre { margin: 0; background: #8881; border-radius: 8px; padding: 12px; font-size: .78rem; white-space: pre; tab-size: 4 }
 @media (max-width: 640px) { .files { grid-template-columns: 1fr } .files nav { max-height: 24vh } }
