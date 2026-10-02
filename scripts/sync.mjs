@@ -2,7 +2,9 @@
 import { readFileSync } from 'node:fs'
 
 const cfg = JSON.parse(readFileSync(new URL('../portfolio.config.json', import.meta.url)))
-const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: KEY, GITHUB_TOKEN } = process.env
+const { GITHUB_TOKEN } = process.env
+const SUPABASE_URL = process.env.SUPABASE_URL?.trim() // pasted secrets often carry a stray newline
+const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
 if (!SUPABASE_URL || !KEY) throw new Error('SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY required')
 
 const sb = (path, init = {}) =>
