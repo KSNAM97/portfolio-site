@@ -8,7 +8,8 @@ if (!SUPABASE_URL || !KEY) throw new Error('SUPABASE_URL / SUPABASE_SERVICE_ROLE
 const sb = (path, init = {}) =>
   fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     ...init,
-    headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json',
+    // new sb_secret_ keys are not JWTs: apikey header only; legacy service_role JWT also needs Bearer
+    headers: { apikey: KEY, ...(KEY.startsWith('eyJ') && { Authorization: `Bearer ${KEY}` }), 'Content-Type': 'application/json',
       Prefer: 'resolution=merge-duplicates', ...init.headers },
   }).then(async (r) => { if (!r.ok) throw new Error(`${path}: ${r.status} ${await r.text()}`) })
 

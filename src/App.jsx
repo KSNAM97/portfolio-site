@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const URL_ = import.meta.env.VITE_SUPABASE_URL
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 const get = (path) =>
-  fetch(`${URL_}/rest/v1/${path}`, { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` } })
+  fetch(`${URL_}/rest/v1/${path}`, { headers: { apikey: KEY, ...(KEY?.startsWith('eyJ') && { Authorization: `Bearer ${KEY}` }) } })
     .then((r) => { if (!r.ok) throw new Error(r.status); return r.json() })
 
 export default function App() {
