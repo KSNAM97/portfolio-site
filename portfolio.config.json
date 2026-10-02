@@ -184,6 +184,10 @@
   },
   "slack_channels": [
     {
+      "name": "announcements",
+      "topic": "Team announcements. Pinned: design, schedule, rules"
+    },
+    {
       "name": "team-network",
       "topic": "Network: DC, Private Internet, DNS/DB, QoS"
     },
