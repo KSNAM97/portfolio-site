@@ -46,7 +46,7 @@ export default function App() {
               <h4>{t(p, 'title')}</h4>
               <p>{t(p, 'summary')}</p>
               <ul className="tags">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
-              <small>★ {p.stars} · {p.pushed_at?.slice(0, 10)}</small>
+              {p.url && <small>★ {p.stars} · {p.pushed_at?.slice(0, 10)}</small>}
             </a>
           ))}
         </div>

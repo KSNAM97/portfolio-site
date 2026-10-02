@@ -16,6 +16,11 @@ const gh = await fetch(`https://api.github.com/users/${cfg.github_user}/repos?pe
   headers: GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {},
 }).then((r) => { if (!r.ok) throw new Error(`github: ${r.status}`); return r.json() })
 
+// hand-written cards (e.g. private repos): defaults fill what the config omits
+const extra = (cfg.extra_projects ?? []).map((p) => ({
+  tags: [], url: null, homepage: null, stars: 0, pushed_at: null, featured: false, sort: 100, ...p,
+}))
+
 const rows = gh
   .filter((r) => !r.fork && !cfg.exclude.includes(r.name))
   .map((r) => {
@@ -29,6 +34,7 @@ const rows = gh
       featured: o.featured ?? false, sort: o.sort ?? 100,
     }
   })
+  .concat(extra)
 
 await sb('site?on_conflict=key', { method: 'POST', body: JSON.stringify({ key: 'profile', value: cfg.profile }) })
 await sb('projects?on_conflict=slug', { method: 'POST', body: JSON.stringify(rows) })
