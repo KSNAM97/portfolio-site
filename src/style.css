@@ -10,5 +10,6 @@ nav { display:flex; gap:16px; margin:12px 0 } a { color:var(--ac); text-decorati
 .card { display:block; border:1px solid var(--bd); border-radius:12px; padding:16px; color:inherit }
 .card.featured { border-color:var(--ac) } .card:hover { transform:translateY(-2px) }
 .card h4 { margin:0 0 6px } .card p { margin:0 0 10px; color:var(--mut); font-size:.9rem }
+.card img { width:100%; height:180px; object-fit:contain; background:#fff; border-radius:8px; margin-bottom:10px }
 small { color:var(--mut) } .msg { padding:48px 16px; text-align:center }
 .lang { position:fixed; top:12px; right:16px; background:none; color:var(--fg); border:1px solid var(--bd); border-radius:8px; padding:4px 10px; cursor:pointer }

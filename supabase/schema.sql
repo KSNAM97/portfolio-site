@@ -9,7 +9,7 @@ create table if not exists projects (
   title_ko text, title_en text,
   summary_ko text, summary_en text,
   tags text[] default '{}',
-  url text, homepage text,
+  url text, homepage text, image text,
   stars int default 0,
   pushed_at timestamptz,
   featured boolean default false,

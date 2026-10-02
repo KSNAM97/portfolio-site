@@ -18,7 +18,7 @@ const gh = await fetch(`https://api.github.com/users/${cfg.github_user}/repos?pe
 
 // hand-written cards (e.g. private repos): defaults fill what the config omits
 const extra = (cfg.extra_projects ?? []).map((p) => ({
-  tags: [], url: null, homepage: null, stars: 0, pushed_at: null, featured: false, sort: 100, ...p,
+  tags: [], url: null, homepage: null, image: null, stars: 0, pushed_at: null, featured: false, sort: 100, ...p,
 }))
 
 const rows = gh
@@ -29,7 +29,7 @@ const rows = gh
       slug: r.name,
       title_ko: o.title_ko ?? r.name, title_en: o.title_en ?? r.name,
       summary_ko: o.summary_ko ?? r.description, summary_en: o.summary_en ?? r.description,
-      tags: o.tags ?? [], url: r.html_url, homepage: r.homepage || null,
+      tags: o.tags ?? [], url: r.html_url, homepage: r.homepage || null, image: null,
       stars: r.stargazers_count, pushed_at: r.pushed_at,
       featured: o.featured ?? false, sort: o.sort ?? 100,
     }

@@ -20,6 +20,7 @@
       "summary_ko": "HQ/DC/BR1/BR2 4개 사이트를 ISP 이중화(eBGP)와 DMVPN Phase3(mGRE over IPsec)으로 연결. DC는 Arista cEOS, 나머지는 Cisco. HSRP/VARP, QoS, 화이트리스트 ACL, 장애 실측까지 GNS3로 구현.",
       "summary_en": "Four sites (HQ/DC/BR1/BR2) joined by dual-ISP eBGP and DMVPN Phase 3 (mGRE over IPsec). Arista cEOS in the DC, Cisco elsewhere. HSRP/VARP, QoS, whitelist ACLs and failover tests built in GNS3.",
       "tags": ["DMVPN", "IPsec", "eBGP", "OSPF", "HSRP", "QoS", "Arista cEOS", "GNS3"],
+      "image": "/topology.webp",
       "featured": true,
       "sort": 0
     }

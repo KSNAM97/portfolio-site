@@ -43,6 +43,7 @@ export default function App() {
         <div className="grid">
           {projects.map((p) => (
             <a key={p.slug} className={`card${p.featured ? ' featured' : ''}`} href={p.url}>
+              {p.image && <img src={p.image} alt={t(p, 'title')} loading="lazy" />}
               <h4>{t(p, 'title')}</h4>
               <p>{t(p, 'summary')}</p>
               <ul className="tags">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
