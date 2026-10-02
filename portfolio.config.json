@@ -66,7 +66,16 @@
     }
   ],
   "overrides": {
-    "cisco-dmvpn-ipsec-network": { "featured": true, "sort": 1, "tags": ["DMVPN", "IPsec", "OSPF", "EIGRP", "HSRP"], "title_en": "DMVPN + IPsec WAN", "title_ko": "DMVPN + IPsec WAN 구축" },
+    "cisco-dmvpn-ipsec-network": {
+      "featured": true,
+      "sort": 1,
+      "title_ko": "DMVPN + IPsec 본사-지사 WAN 구축",
+      "title_en": "DMVPN + IPsec HQ-Branch WAN",
+      "summary_ko": "본사 이중 Edge(허브)와 지사 4곳을 DMVPN Phase2/3(mGRE over IPsec AES-256)으로 연결. OSPF Area 0와 EIGRP AS100/200을 태그 기반 재분배로 통합하고, HSRP Track 이중화, VTPv3, EtherChannel, NAT/PAT까지 GNS3로 구현.",
+      "summary_en": "Dual HQ edge hubs and four branches joined by DMVPN Phase 2/3 (mGRE over IPsec AES-256). OSPF Area 0 and EIGRP AS100/200 are merged with tag-based redistribution, plus HSRP tracking, VTPv3, EtherChannel and NAT/PAT, built in GNS3.",
+      "tags": ["DMVPN", "IPsec", "OSPF", "EIGRP", "HSRP", "NAT", "GNS3"],
+      "image": "/dmvpn-topology.webp"
+    },
     "IPsec-Network-Security-Lab": { "featured": true, "sort": 2, "tags": ["IPsec", "NAT", "CBAC"] },
     "Campus-VLAN-OSPF-NTP-Security": { "featured": true, "sort": 3, "tags": ["VLAN", "OSPF", "NTP"] }
   }

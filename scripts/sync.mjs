@@ -32,7 +32,7 @@ const rows = gh
       slug: r.name,
       title_ko: o.title_ko ?? r.name, title_en: o.title_en ?? r.name,
       summary_ko: o.summary_ko ?? r.description, summary_en: o.summary_en ?? r.description,
-      tags: o.tags ?? [], url: r.html_url, homepage: r.homepage || null, image: null,
+      tags: o.tags ?? [], url: r.html_url, homepage: r.homepage || null, image: o.image ?? null,
       stars: r.stargazers_count, pushed_at: r.pushed_at,
       featured: o.featured ?? false, sort: o.sort ?? 100,
     }
