@@ -1,0 +1,20 @@
+{
+  "profile": {
+    "name": "KiSuk Nam",
+    "role_ko": "Network & Infra Engineer 지망",
+    "role_en": "Aspiring Network & Infra Engineer",
+    "bio_ko": "GNS3 / Cisco IOS 기반 네트워크 실습 → Linux · Docker · K8s · Cloud 로 확장 중. Learning by building & breaking.",
+    "bio_en": "Hands-on labs with GNS3 / Cisco IOS, expanding into Linux, Docker, K8s and Cloud. Learning by building & breaking.",
+    "email": "nks026400@gmail.com",
+    "github": "https://github.com/KSNAM97",
+    "notion": "https://positive-iodine-faf.notion.site/KiSuk-Nam-Network-Infra-Engineer-Portfolio-395f603626cb802b82e1c95c2f8a2a30",
+    "stack": ["Cisco IOS", "GNS3", "Packet Tracer", "Rocky Linux", "Docker", "Kubernetes", "Ansible", "AWS"]
+  },
+  "github_user": "KSNAM97",
+  "exclude": ["KSNAM97", "portfolio-site"],
+  "overrides": {
+    "cisco-dmvpn-ipsec-network": { "featured": true, "sort": 1, "tags": ["DMVPN", "IPsec", "OSPF", "EIGRP", "HSRP"], "title_en": "DMVPN + IPsec WAN", "title_ko": "DMVPN + IPsec WAN 구축" },
+    "IPsec-Network-Security-Lab": { "featured": true, "sort": 2, "tags": ["IPsec", "NAT", "CBAC"] },
+    "Campus-VLAN-OSPF-NTP-Security": { "featured": true, "sort": 3, "tags": ["VLAN", "OSPF", "NTP"] }
+  }
+}

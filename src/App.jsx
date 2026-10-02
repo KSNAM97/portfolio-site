@@ -1,0 +1,56 @@
+import { useEffect, useState } from 'react'
+
+const URL_ = import.meta.env.VITE_SUPABASE_URL
+const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+const get = (path) =>
+  fetch(`${URL_}/rest/v1/${path}`, { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` } })
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json() })
+
+export default function App() {
+  const [lang, setLang] = useState('ko')
+  const [profile, setProfile] = useState(null)
+  const [projects, setProjects] = useState([])
+  const [err, setErr] = useState(null)
+
+  useEffect(() => {
+    Promise.all([get('site?key=eq.profile'), get('projects?order=featured.desc,sort.asc,pushed_at.desc')])
+      .then(([s, p]) => { setProfile(s[0]?.value); setProjects(p) })
+      .catch((e) => setErr(String(e)))
+  }, [])
+
+  const t = (o, k) => o?.[`${k}_${lang}`] ?? o?.[`${k}_ko`]
+  if (err) return <p className="msg">Failed to load data ({err})</p>
+  if (!profile) return <p className="msg">Loading…</p>
+
+  return (
+    <main>
+      <button className="lang" onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}>
+        {lang === 'ko' ? 'EN' : '한국어'}
+      </button>
+      <header>
+        <h1>{profile.name}</h1>
+        <h2>{t(profile, 'role')}</h2>
+        <p>{t(profile, 'bio')}</p>
+        <nav>
+          <a href={profile.github}>GitHub</a>
+          <a href={profile.notion}>Notion</a>
+          <a href={`mailto:${profile.email}`}>Email</a>
+        </nav>
+        <ul className="tags">{profile.stack.map((s) => <li key={s}>{s}</li>)}</ul>
+      </header>
+      <section>
+        <h3>{lang === 'ko' ? '프로젝트' : 'Projects'}</h3>
+        <div className="grid">
+          {projects.map((p) => (
+            <a key={p.slug} className={`card${p.featured ? ' featured' : ''}`} href={p.url}>
+              <h4>{t(p, 'title')}</h4>
+              <p>{t(p, 'summary')}</p>
+              <ul className="tags">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul>
+              <small>★ {p.stars} · {p.pushed_at?.slice(0, 10)}</small>
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+  )
+}
