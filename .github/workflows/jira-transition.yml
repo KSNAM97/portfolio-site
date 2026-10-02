@@ -1,0 +1,30 @@
+name: jira-transition
+# Moves one Jira issue to a status. Used to test the Jira -> Slack notifications; revert afterwards.
+on:
+  workflow_dispatch:
+    inputs:
+      to:
+        description: target status name (e.g. 진행 중, 해야 할 일, 완료)
+        required: true
+        default: 진행 중
+      key:
+        description: issue key (empty = first issue that has only the label below)
+        default: ''
+      label:
+        description: label to pick from when key is empty
+        default: network
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/jira-transition.mjs
+        env:
+          TO: ${{ inputs.to }}
+          KEY: ${{ inputs.key }}
+          LABEL: ${{ inputs.label }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
