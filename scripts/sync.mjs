@@ -25,7 +25,7 @@ const extra = (cfg.extra_projects ?? []).map((p) => ({
 }))
 
 const rows = gh
-  .filter((r) => !r.fork && !cfg.exclude.includes(r.name))
+  .filter((r) => cfg.include.includes(r.name)) // allowlist: only repos named here get a card
   .map((r) => {
     const o = cfg.overrides[r.name] ?? {}
     return {

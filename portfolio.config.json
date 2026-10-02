@@ -11,7 +11,7 @@
     "stack": ["Cisco IOS", "GNS3", "Packet Tracer", "Rocky Linux", "Docker", "Kubernetes", "Ansible", "AWS"]
   },
   "github_user": "KSNAM97",
-  "exclude": ["KSNAM97", "portfolio-site"],
+  "include": ["cisco-dmvpn-ipsec-network"],
   "extra_projects": [
     {
       "slug": "multivendor-hybrid-network",
