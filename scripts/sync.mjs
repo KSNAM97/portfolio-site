@@ -58,8 +58,10 @@ for (const p of readdirSync(dir, { recursive: true }).map((x) => x.replaceAll('\
 
 // 2) source of truth: files read straight from the GitHub repos listed in cfg.sources.
 //    A private repo needs SOURCE_REPO_TOKEN (read-only contents access); on any failure the fallback stays.
-const fetchSource = async ({ repo, include, branch = 'main' }) => {
-  const h = { Authorization: `Bearer ${process.env.SOURCE_REPO_TOKEN?.trim() || GITHUB_TOKEN}`, 'X-GitHub-Api-Version': '2022-11-28' }
+const fetchSource = async ({ repo, include, branch = 'main', private: isPrivate }) => {
+  // public repos always use the default token, so a bad SOURCE_REPO_TOKEN cannot break them
+  const token = (isPrivate && process.env.SOURCE_REPO_TOKEN?.trim()) || GITHUB_TOKEN
+  const h = { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
   const t = await fetch(`https://api.github.com/repos/${repo}/git/trees/${branch}?recursive=1`, { headers: h })
   if (!t.ok) throw new Error(`tree ${t.status}`)
   const wanted = (await t.json()).tree.filter((e) =>

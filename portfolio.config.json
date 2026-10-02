@@ -167,7 +167,8 @@
         "README.md",
         "docs/",
         "configs/"
-      ]
+      ],
+      "private": true
     }
   ]
 }
