@@ -48,9 +48,9 @@ do {
   if (!r.ok) throw new Error(`search ${r.status}`)
   const d = await r.json(); d.issues.forEach((i) => existing.add(i.fields.summary)); next = d.nextPageToken
 } while (next)
-const tr = await call(`issue/createmeta/${cfg.project_key}/issuetypes`)
-if (!tr.ok) throw new Error(`issuetypes ${tr.status}`)
-const types = (await tr.json()).issueTypes ?? []
+const pr = await call(`project/${cfg.project_key}`)
+if (!pr.ok) throw new Error(`project ${pr.status}`)
+const types = (await pr.json()).issueTypes ?? []
 const std = types.filter((t) => !t.subtask && t.hierarchyLevel === 0)
 const typeId = (name) => (types.find((t) => t.name.toLowerCase() === name.toLowerCase()) ?? std[0])?.id
 const todo = tickets.filter((t) => !existing.has(t.summary))
