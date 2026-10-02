@@ -55,7 +55,6 @@
 |---|---|---|---|
 | portfolio-site (Actions) | `SUPABASE_URL` | DB 주소 | - |
 | portfolio-site (Actions) | `SUPABASE_SERVICE_ROLE_KEY` | DB 쓰기 (동기화) | Supabase secret key. RLS 우회, 클라이언트 노출 금지 |
-| portfolio-site (Actions) | `SOURCE_REPO_TOKEN` | 비공개 repo 읽기 | **더 이상 필요 없음** (network-project가 공개). 삭제 권장 |
 | portfolio-site (Actions) | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN` | Jira 읽기/이슈 생성 | 토큰 만료일 확인 필요 |
 | portfolio-site (Actions) | `SLACK_WEBHOOK_URL` | 동기화 알림 | 웹훅 1개 |
 | portfolio-site (Actions) | `SLACK_BOT_TOKEN` | 채널 생성, 공지 게시 | `channels:manage`, `channels:read`, `chat:write`. 작업 끝나면 권한 축소 권장 |
@@ -127,7 +126,7 @@
 ## 11. 남은 일 / 주의
 
 - Vercel `SLACK_CONTACT_WEBHOOK_URL` 등록 여부 확인.
-- `SOURCE_REPO_TOKEN` 시크릿과 `portfolio-source-read` 토큰 삭제.
+- GitHub 설정에서 `portfolio-source-read` 토큰(읽기용, 더 이상 쓰이지 않음) 폐기. 시크릿 `SOURCE_REPO_TOKEN`은 2026-10-02에 삭제 완료.
 - Slack 봇 권한(`channels:manage`, `chat:write`) 축소 또는 `SLACK_BOT_TOKEN` 삭제.
 - 팀원을 Slack 채널과 GitHub에 초대. `final-project` 팀 공지를 `#announcements`에 게시.
 - Jira에서 GitHub for Jira 앱 연결 (커밋 → 이슈 자동 연결).
