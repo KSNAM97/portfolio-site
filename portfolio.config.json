@@ -199,5 +199,14 @@
       "name": "dev-issues",
       "topic": "Failures and open issues"
     }
-  ]
+  ],
+  "slack_announce": {
+    "repo": "KSNAM97/network-project",
+    "file": "slack/slack-announcement.md",
+    "channels": [
+      "team-network",
+      "team-cloud",
+      "team-policy"
+    ]
+  }
 }

@@ -1,0 +1,23 @@
+name: slack-announce
+# Posts slack/slack-announcement.md (from the network-project repo) to the team channels. Run it once: a second run posts again.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: dry (check only) or post
+        default: dry
+        type: choice
+        options: [dry, post]
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/slack-announce.mjs
+        env:
+          MODE: ${{ inputs.mode }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
