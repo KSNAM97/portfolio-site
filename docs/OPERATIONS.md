@@ -129,6 +129,6 @@
 - GitHub 설정에서 `portfolio-source-read` 토큰(읽기용, 더 이상 쓰이지 않음) 폐기. 시크릿 `SOURCE_REPO_TOKEN`은 2026-10-02에 삭제 완료.
 - Slack 봇 권한(`channels:manage`, `chat:write`) 축소 또는 `SLACK_BOT_TOKEN` 삭제.
 - 팀원을 Slack 채널과 GitHub에 초대. `final-project` 팀 공지를 `#announcements`에 게시.
-- Jira에서 GitHub for Jira 앱 연결 (커밋 → 이슈 자동 연결).
+- **다음 작업 시작 지점: Jira–GitHub 연결 마무리.** 상태: Jira 사이트에 `GitHub for Atlassian` 앱 설치 완료(2026-10-02). 남은 단계: 앱 화면 `Connect GitHub to Atlassian` → GitHub Cloud → `Go to GitHub`(팝업이라 **사용자가 직접 클릭**) → 계정 `KSNAM97`, `Only select repositories`에서 `network-project`만 선택 → Install & Authorize. 연결 후 `KAN-<번호>:`로 시작하는 커밋 메시지로 작은 문서 변경을 push해 Jira 이슈의 개발 패널에 붙는지 확인하고 되돌린다. 커밋 작성자는 `KiSukNam`.
 - 도메인 `ksnam97.com`은 2027-09-10 만료, 자동 갱신 꺼짐. 호스티드 존 월 $0.50.
 - `slack-announce`는 재실행하면 공지가 중복 게시됩니다.
