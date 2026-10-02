@@ -79,15 +79,14 @@ img.next-image {
 .modal { position: fixed; inset: 0; background: #000a; display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50 }
 .modal-body { position: relative; background: #fff; color: #111; border-radius: 12px; max-width: 1100px; width: 100%; max-height: 92vh; overflow: auto; padding: 20px }
 .modal-body h3 { margin: 0 0 12px; padding-right: 32px }
-.modal-body img { width: 100%; height: auto; border-radius: 8px; border: 1px solid #8884 }
 .modal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; font-size: 1.8rem; line-height: 1; cursor: pointer; color: inherit }
-@media (prefers-color-scheme: dark) { .modal-body { background: #15181d; color: #e6e8eb } .modal-body img { background: #fff } }
+@media (prefers-color-scheme: dark) { .modal-body { background: #15181d; color: #e6e8eb } .files .pane > img { background: #fff } }
 .files { display: grid; grid-template-columns: 220px 1fr; gap: 12px; min-height: 50vh }
 .files nav { max-height: 62vh; overflow: auto; font-size: .85rem }
 .files .dir { margin: 8px 0 2px; opacity: .6; word-break: break-all }
 .files nav button { display: block; width: 100%; text-align: left; background: none; color: inherit; border: 0; border-radius: 6px; padding: 3px 8px; cursor: pointer }
 .files .pane { max-height: 62vh; overflow: auto; min-width: 0 }
-.files .pane img { width: 100%; height: auto; border-radius: 8px; border: 1px solid #8884 }
+.files .pane > img { width: 100%; height: auto; border-radius: 8px; border: 1px solid #8884 }
 .files nav button.on { background: #0074de; color: #fff }
 .files pre { margin: 0; background: #8881; border-radius: 8px; padding: 12px; font-size: .78rem; white-space: pre; tab-size: 4 }
 @media (max-width: 640px) { .files { grid-template-columns: 1fr } .files nav { max-height: 24vh } }
@@ -103,4 +102,4 @@ img.next-image {
 .md pre code { background: none; padding: 0 }
 .md blockquote { margin: 0 0 .8em; padding-left: 12px; border-left: 3px solid #8886; opacity: .85 }
 .md hr { border: 0; border-top: 1px solid #8884; margin: 1em 0 }
-.md img { max-width: 100% }
+.md img { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 28px; margin: 2px 4px 2px 0; vertical-align: middle; border: 0; border-radius: 0 }
