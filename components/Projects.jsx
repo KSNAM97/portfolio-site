@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+
+// markdown renderer loads only when a .md file is opened
+const Md = dynamic(() => import('./Md'), { ssr: false })
 
 const URL_ = process.env.NEXT_PUBLIC_SUPABASE_URL
 const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -53,7 +57,7 @@ function Detail({ p, t, lang }) {
       </nav>
       <div className="pane">
         {sel ? (
-          <pre>{text}</pre>
+          sel.endsWith('.md') ? <Md>{text}</Md> : <pre>{text}</pre>
         ) : (
           <>
             <img src={p.image} alt={t(p, 'title')} />

@@ -47,24 +47,24 @@
 cisco-dmvpn-ipsec-network/
 ├── configs/
 │   ├── HQ-Router/
-│   │   ├── HQ-EDGE-1.md
-│   │   └── HQ-EDGE-2.md
+│   │   ├── HQ-EDGE-1.cfg
+│   │   └── HQ-EDGE-2.cfg
 │   ├── HQ-Switch/
-│   │   ├── HQ-CORE-1.md
-│   │   ├── HQ-CORE-2.md
-│   │   ├── HQ-ACCESS-1.md
-│   │   ├── HQ-ACCESS-2.md
-│   │   ├── HQ-ACCESS-3.md
-│   │   └── HQ-ACCESS-4.md
+│   │   ├── HQ-CORE-1.cfg
+│   │   ├── HQ-CORE-2.cfg
+│   │   ├── HQ-ACCESS-1.cfg
+│   │   ├── HQ-ACCESS-2.cfg
+│   │   ├── HQ-ACCESS-3.cfg
+│   │   └── HQ-ACCESS-4.cfg
 │   ├── Branch/
-│   │   ├── BRANCH1.md
-│   │   ├── BRANCH2.md
-│   │   ├── BRANCH3.md
-│   │   └── BRANCH4.md
+│   │   ├── BRANCH1.cfg
+│   │   ├── BRANCH2.cfg
+│   │   ├── BRANCH3.cfg
+│   │   └── BRANCH4.cfg
 │   └── ISP-VPC/
-│       ├── R-ISP.md
-│       ├── VPC-basic.md
-│       └── WebServer-basic.md
+│       ├── R-ISP.cfg
+│       ├── VPC-basic.vpc
+│       └── WebServer-basic.cfg
 ├── topology/
 │   └── TOPOLOGY-1.png
 ├── verification/
