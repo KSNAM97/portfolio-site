@@ -8,6 +8,8 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,3 +20,10 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }} # optional: read-only token for the private network-project repo
+      # optional: set the SLACK_WEBHOOK_URL secret to enable. Hourly runs stay silent unless they fail.
+      - name: Notify Slack
+        if: always() && env.SLACK_WEBHOOK_URL != '' && (failure() || github.event_name != 'schedule')
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then icon="OK"; else icon="FAILED"; fi
+          msg="[portfolio-site] sync $icon (${{ github.event_name }}) - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -fsS -X POST -H 'Content-type: application/json' --data "$(jq -nc --arg t "$msg" '{text:$t}')" "$SLACK_WEBHOOK_URL"
