@@ -77,7 +77,7 @@
 - Jira: 사이트 `final-project-ksnam97`, 프로젝트 키 `KAN` (팀 관리형 칸반). 이슈 29개 생성 (`KAN-4` ~ `KAN-32`, 유형 `작업`). 키는 샘플 이슈 3개가 지워지며 4번부터 시작했고 Jira에서 되돌릴 수 없음. 제목의 `[W1]`~`[W6]` 접두어로 사이트가 주차별 진행률을 계산 (숫자만 노출, 제목은 저장·노출 안 함).
 - Slack 워크스페이스 `final-project`. 채널: `#announcements`, `#team-network`, `#team-cloud`, `#team-policy`, `#dev-issues`.
 - Jira Cloud 앱 연결: `#team-network`(labels=network), `#team-cloud`(labels=cloud), `#team-policy`(labels=policy). **`#dev-issues`는 제외**. `#announcements`는 연결 안 함.
-- 팀 공지는 `#team-network`, `#team-cloud`, `#team-policy`에 게시 완료. `#announcements`에는 직접 올리기로 함.
+- 팀 공지: 최종 설계 공지는 `#team-network`, `#team-cloud`, `#team-policy`에 게시 완료. 사전작업 요약 공지(`slack/2026-10-02-setup-summary.md`)는 `#announcements`에 게시.
 
 ## 8. 변경 이력 (2026-10-02)
 

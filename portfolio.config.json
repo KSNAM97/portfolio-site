@@ -205,11 +205,9 @@
   ],
   "slack_announce": {
     "repo": "KSNAM97/network-project",
-    "file": "slack/slack-announcement.md",
+    "file": "slack/2026-10-02-setup-summary.md",
     "channels": [
-      "team-network",
-      "team-cloud",
-      "team-policy"
+      "announcements"
     ]
   }
 }
