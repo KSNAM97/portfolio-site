@@ -1,0 +1,21 @@
+name: slack-setup
+# Creates the Slack channels from portfolio.config.json (slack_channels). Re-runnable: existing channels are skipped.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: dry (list only) or create
+        default: dry
+        type: choice
+        options: [dry, create]
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/slack-setup.mjs
+        env:
+          MODE: ${{ inputs.mode }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

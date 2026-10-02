@@ -181,5 +181,23 @@
     "repo": "KSNAM97/network-project",
     "file": "jira/jira-tickets-3person.csv",
     "project_key": "KAN"
-  }
+  },
+  "slack_channels": [
+    {
+      "name": "team-network",
+      "topic": "Network: DC, Private Internet, DNS/DB, QoS"
+    },
+    {
+      "name": "team-cloud",
+      "topic": "Cloud: HQ, ISP-1, ISP-2"
+    },
+    {
+      "name": "team-policy",
+      "topic": "Policy: BR1, BR2, DMVPN, ACL, docs"
+    },
+    {
+      "name": "dev-issues",
+      "topic": "Failures and open issues"
+    }
+  ]
 }
