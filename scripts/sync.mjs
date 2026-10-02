@@ -68,7 +68,9 @@ const fetchSource = async ({ repo, include, branch = 'main', private: isPrivate 
     const raw = process.env.SOURCE_REPO_TOKEN ?? ''
     const kind = isPrivate ? (raw.startsWith('github_pat_') ? 'fine-grained' : raw.startsWith('ghp_') ? 'classic' : raw ? 'unknown-format' : 'empty') : 'default'
     const odd = /^["']|["']$|\s/.test(raw.replace(/\r?\n$/, '')) ? ' has-quote-or-space' : ''
-    throw new Error(`tree ${t.status} (token: ${kind}, ${raw.trim().length} chars${odd}; ${t.headers.get('x-accepted-github-permissions') ?? 'no perms header'})`)
+    // expiry timestamp tells tokens apart (each token has its own), so a wrong paste is visible without leaking the value
+    const exp = (await fetch('https://api.github.com/user', { headers: h })).headers.get('github-authentication-token-expiration') ?? 'n/a'
+    throw new Error(`tree ${t.status} (token: ${kind}, ${raw.trim().length} chars${odd}, expires ${exp}; ${t.headers.get('x-accepted-github-permissions') ?? 'no perms header'})`)
   }
   const wanted = (await t.json()).tree.filter((e) =>
     e.type === 'blob' && e.size < 300000 && /\.(md|cfg|vpc|txt)$/i.test(e.path) &&
