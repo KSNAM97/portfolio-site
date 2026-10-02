@@ -78,7 +78,7 @@
 - Jira: 사이트 `final-project-ksnam97`, 프로젝트 키 `KAN` (팀 관리형 칸반). 이슈 29개 생성 (`KAN-4` ~ `KAN-32`, 유형 `작업`). 키는 샘플 이슈 3개가 지워지며 4번부터 시작했고 Jira에서 되돌릴 수 없음. 제목의 `[W1]`~`[W6]` 접두어로 사이트가 주차별 진행률을 계산 (숫자만 노출, 제목은 저장·노출 안 함).
 - Slack 워크스페이스 `final-project`. 채널: `#announcements`, `#team-network`, `#team-cloud`, `#team-policy`, `#dev-issues`.
 - Jira Cloud 앱 연결: `#team-network`(labels=network), `#team-cloud`(labels=cloud), `#team-policy`(labels=policy). **`#dev-issues`는 제외**. `#announcements`는 연결 안 함.
-- 알림 조건(세 팀 채널 공통): `Issue is = created` + `Status is transitioned to = 진행 중, 완료`. 상태 조건을 비워 두면 이슈 생성 때만 알림이 오므로 반드시 채워 둘 것(2026-10-02 수정).
+- 알림 조건(세 팀 채널 공통): `Issue is = created` + `Status is transitioned to = 진행 중, 해야 할 일, 완료`. 상태 조건을 비워 두면 이슈 생성 때만 알림이 오므로 반드시 채워 둘 것(2026-10-02 수정). 되돌릴 때(`해야 할 일`)도 알림이 간다.
 - 팀 공지: 최종 설계 공지는 `#team-network`, `#team-cloud`, `#team-policy`에 게시 완료. 사전작업 요약 공지(`slack/2026-10-02-setup-summary.md`)는 `#announcements`에 게시.
 
 ## 8. 변경 이력 (2026-10-02)
@@ -92,6 +92,7 @@
 7. 자동화: 원본 repo push → 즉시 동기화(`notify-portfolio`), Slack 알림, Jira 진행률, 문의 폼.
 8. 정리: Vercel `obsidian` 프로젝트 삭제 (GitHub repo는 유지), `network-project`를 공개로 전환(Actions 사용량 한도 회피 목적).
 9. Slack 알림 테스트: `KAN-6`(network 라벨만)을 `진행 중`으로 옮겼을 때 알림이 오지 않음 → 원인은 `Status is transitioned to`가 비어 있던 것. 세 팀 채널에 `진행 중`/`완료`를 설정한 뒤 `완료`로 옮겨 재테스트: `#team-network`에만 알림이 오고 `#team-cloud`, `#team-policy`, `#dev-issues`에는 오지 않음(라벨 필터 정상). 테스트 이슈는 `해야 할 일`로 복원.
+10. 알림 조건에 `해야 할 일`을 추가해 세 팀 채널 모두 적용하고, 팀별로 `진행 중`/`해야 할 일` 전환 알림이 해당 채널에만 가는 것을 확인.
 
 ## 9. 점검 결과 (2026-10-02)
 
@@ -100,7 +101,7 @@
 - Supabase: RLS 켜짐, 공개 키 읽기 200 / 쓰기 401, `ops_log` 공개 키 접근 401.
 - 동기화: 두 원본 repo 모두 기본 토큰으로 읽음(DMVPN 18개, 멀티벤더 4개), Jira 29개 이슈 반영.
 - Slack: 팀 채널 3곳 Jira 연결 확인, `#dev-issues` 연결 제거 확인.
-- Jira → Slack 알림: 상태 전환 테스트 통과 (라벨 `network` 이슈는 `#team-network`에만 전달).
+- Jira → Slack 알림: 팀별 상태 전환 테스트 통과. `KAN-6`(network)은 `#team-network`, `KAN-8`(cloud)은 `#team-cloud`, `KAN-12`(policy)는 `#team-policy`에만 전달되었고, `진행 중`으로 옮길 때와 `해야 할 일`로 되돌릴 때 모두 알림이 옴. 테스트 이슈 3개는 `해야 할 일`로 복원.
 
 ## 10. 운영 절차
 
