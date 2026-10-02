@@ -1,0 +1,25 @@
+name: jira-import
+# Creates Jira issues from the CSV named in portfolio.config.json (jira_import). Re-runnable: existing summaries are skipped.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: dry (count only) or create
+        default: dry
+        type: choice
+        options: [dry, create]
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/jira-import.mjs
+        env:
+          MODE: ${{ inputs.mode }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

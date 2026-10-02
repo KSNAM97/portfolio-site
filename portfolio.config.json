@@ -176,5 +176,10 @@
       "slug": "multivendor-hybrid-network",
       "project_key": "KAN"
     }
-  ]
+  ],
+  "jira_import": {
+    "repo": "KSNAM97/network-project",
+    "file": "jira/jira-tickets-3person.csv",
+    "project_key": "KAN"
+  }
 }
