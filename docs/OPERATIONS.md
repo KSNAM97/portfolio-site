@@ -62,6 +62,7 @@
 | network-project, cisco-dmvpn-ipsec-network (Actions) | `PORTFOLIO_DISPATCH_TOKEN` | 동기화 즉시 실행 | fine-grained, portfolio-site만, Actions: Read and write |
 | Vercel (Production) | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 사이트가 DB를 읽음 | 공개 키(publishable). 공개돼도 안전 |
 | Vercel (Production) | `SLACK_CONTACT_WEBHOOK_URL` | 문의 폼 → Slack | 웹훅 URL. 등록 후 Redeploy 필요 |
+| Vercel (Production) | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN` | `/api/jira-progress`가 Jira를 직접 조회(진행 현황 실시간 반영) | 읽기만 사용. 없으면 DB에 저장된 값으로 폴백 |
 
 로컬 `.env.local`은 git에서 제외됩니다 (`.gitignore`).
 
@@ -72,6 +73,12 @@
 - 보안: 모든 테이블 RLS 켜짐. 공개 키는 `site`/`projects`/`project_files`를 **읽기만** 가능. `ops_log`는 공개 키로 읽기/쓰기 모두 불가.
 - 2026-10-02: 공개 키(anon, authenticated)의 INSERT/UPDATE/DELETE/TRUNCATE/REFERENCES/TRIGGER 권한을 회수 (읽기만 남김). 동기화는 service role이라 영향 없음.
 - 무료 플랜은 장기간 활동이 없으면 일시 중지됩니다. 매시간 동기화가 쓰기 요청을 보내므로 보통 해당 없음. GitHub는 repo 활동이 60일 없으면 예약 실행을 끌 수 있으니 오래 쉴 때 확인.
+
+## 6-1. 진행 현황 반영 방식 (실시간성)
+
+- 기본(폴백): `sync-portfolio`가 Jira 숫자를 Supabase `site.jira_progress:<slug>`에 저장 → 사이트가 읽음. 동기화가 돌아야 갱신됨.
+- 실시간: `/api/jira-progress`(Vercel 서버 함수)가 Jira를 직접 조회해 숫자만 반환. 응답은 60초 캐시, 변경 후 약 1분 안에 반영. Vercel에 `JIRA_*` 환경변수가 있어야 동작하고, 없으면 503을 반환해 화면은 저장된 값으로 폴백.
+- 점검(2026-10-02): GitHub 예약 실행(`0 * * * *`)이 05~08시 정각에 한 번도 시작되지 않음. 예약 실행은 신규 repo나 정각에 지연·누락될 수 있으므로 Jira 반영의 근거로 삼지 않는다. 변경 후 2분간 DB가 갱신되지 않는 것을 실험으로 확인.
 
 ## 7. Jira / Slack
 

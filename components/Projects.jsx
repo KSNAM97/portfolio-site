@@ -55,7 +55,14 @@ function Detail({ p, t, lang }) {
   }, [p.slug])
 
   useEffect(() => {
-    get(`site?key=eq.${encodeURIComponent('jira_progress:' + p.slug)}`).then((r) => setJira(r[0]?.value ?? null)).catch(() => setJira(null))
+    // stored value first (also tells us this project has Jira progress), then the live value if the server function is configured
+    get(`site?key=eq.${encodeURIComponent('jira_progress:' + p.slug)}`)
+      .then((r) => {
+        const stored = r[0]?.value ?? null
+        setJira(stored)
+        if (stored) fetch('/api/jira-progress').then((x) => (x.ok ? x.json() : null)).then((live) => live && setJira(live)).catch(() => {})
+      })
+      .catch(() => setJira(null))
   }, [p.slug])
 
   useEffect(() => {
