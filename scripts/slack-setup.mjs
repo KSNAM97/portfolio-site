@@ -18,7 +18,11 @@ const have = new Set()
 let cursor = ''
 do {
   const r = await api('conversations.list', { types: 'public_channel', limit: '200', exclude_archived: 'true', cursor })
-  if (!r.ok) throw new Error(`conversations.list: ${r.error}${r.needed ? ` (needs ${r.needed})` : ''}`)
+  if (!r.ok) {
+    // token shape only (prefix + length), never the value; a doubled paste shows up as ~2x length
+    const raw = process.env.SLACK_BOT_TOKEN ?? ''
+    throw new Error(`conversations.list: ${r.error}${r.needed ? ` (needs ${r.needed})` : ''} [token ${raw.trim().slice(0, 5)}..., ${raw.trim().length} chars${/\s/.test(raw.trim()) ? ', has whitespace' : ''}]`)
+  }
   r.channels.forEach((c) => have.add(c.name))
   cursor = r.response_metadata?.next_cursor ?? ''
 } while (cursor)
