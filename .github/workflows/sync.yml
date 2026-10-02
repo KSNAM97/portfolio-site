@@ -20,6 +20,9 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }} # optional: read-only token for the private network-project repo
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }} # optional: Jira progress (counts only)
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
       # optional: set the SLACK_WEBHOOK_URL secret to enable. Hourly runs stay silent unless they fail.
       - name: Notify Slack
         if: always() && env.SLACK_WEBHOOK_URL != '' && (failure() || github.event_name != 'schedule')

@@ -103,3 +103,15 @@ img.next-image {
 .md blockquote { margin: 0 0 .8em; padding-left: 12px; border-left: 3px solid #8886; opacity: .85 }
 .md hr { border: 0; border-top: 1px solid #8884; margin: 1em 0 }
 .md img { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 28px; margin: 2px 4px 2px 0; vertical-align: middle; border: 0; border-radius: 0 }
+
+/* jira progress */
+.bar { display: flex; height: 10px; border-radius: 6px; background: #8883; overflow: hidden }
+.bar .done { background: #1a7f37 } .bar .doing { background: #0074de }
+.wk { display: grid; grid-template-columns: 48px 1fr 54px; gap: 10px; align-items: center; margin: 6px 0; font-size: .85rem }
+.muted { opacity: .65; font-size: .82rem; margin: 6px 0 12px }
+
+/* contact form */
+.contact { display: grid; gap: 8px; max-width: 560px; margin-top: 3rem }
+.contact input, .contact textarea { font: inherit; padding: 8px 10px; border: 1px solid #8886; border-radius: 8px; background: transparent; color: inherit }
+.contact button { justify-self: start; padding: 6px 16px; border: 1px solid #8886; border-radius: 8px; background: none; color: inherit; cursor: pointer }
+.contact .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0 }

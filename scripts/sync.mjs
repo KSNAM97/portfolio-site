@@ -99,4 +99,41 @@ for (const [project, m] of Object.entries(byProject)) {
   const keep = Object.keys(m).map((x) => `"${x}"`).join(',')
   await sb(`project_files?project=eq.${project}&path=not.in.(${keep})`, { method: 'DELETE' })
 }
+// Jira progress for projects listed in cfg.jira: stored as counts only (no ticket titles) in site.jira_progress:<slug>.
+// Needs JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN; without them this step is skipped and the stored row stays.
+const { JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN } = process.env
+for (const j of cfg.jira ?? []) {
+  if (!JIRA_BASE_URL?.trim() || !JIRA_EMAIL?.trim() || !JIRA_API_TOKEN?.trim()) { console.warn('jira: credentials not set - skipped'); break }
+  try {
+    const base = JIRA_BASE_URL.trim().replace(/\/$/, '')
+    const headers = {
+      Authorization: 'Basic ' + Buffer.from(`${JIRA_EMAIL.trim()}:${JIRA_API_TOKEN.trim()}`).toString('base64'),
+      'Content-Type': 'application/json', Accept: 'application/json',
+    }
+    const issues = []
+    let next
+    do {
+      const r = await fetch(`${base}/rest/api/3/search/jql`, {
+        method: 'POST', headers,
+        body: JSON.stringify({ jql: `project = ${j.project_key}`, fields: ['summary', 'status'], maxResults: 100, ...(next && { nextPageToken: next }) }),
+      })
+      if (!r.ok) throw new Error(`search ${r.status}`)
+      const d = await r.json()
+      issues.push(...d.issues)
+      next = d.nextPageToken
+    } while (next)
+    const zero = () => ({ total: 0, done: 0, doing: 0, todo: 0 })
+    const all = zero(), weeks = {}
+    for (const i of issues) {
+      const cat = i.fields.status?.statusCategory?.key
+      const k = cat === 'done' ? 'done' : cat === 'indeterminate' ? 'doing' : 'todo'
+      const w = /^\[(W\d+)\]/.exec(i.fields.summary ?? '')?.[1] ?? 'etc' // "[W1] ..." prefix from the CSV
+      for (const c of [all, (weeks[w] ||= zero())]) { c.total++; c[k]++ }
+    }
+    await sb('site?on_conflict=key', { method: 'POST', body: JSON.stringify({ key: `jira_progress:${j.slug}`, value: { ...all, weeks, updated: new Date().toISOString() } }) })
+    console.log(`jira ${j.project_key}: ${issues.length} issues (${all.done} done)`)
+  } catch (e) {
+    console.warn(`jira ${j.project_key}: ${e.message} - keeping the stored value`)
+  }
+}
 console.log(`synced ${rows.length} projects, ${files.length} files`)

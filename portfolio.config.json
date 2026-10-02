@@ -170,5 +170,11 @@
       ],
       "private": true
     }
+  ],
+  "jira": [
+    {
+      "slug": "multivendor-hybrid-network",
+      "project_key": "KAN"
+    }
   ]
 }

@@ -12,12 +12,42 @@ const get = (path) =>
     headers: { apikey: KEY, ...(KEY?.startsWith('eyJ') && { Authorization: `Bearer ${KEY}` }) }
   }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json() })
 
+// Jira progress: numbers only (ticket titles are never stored or shown)
+function Progress({ data, lang }) {
+  const pct = (d, t) => (t ? Math.round((d / t) * 100) : 0)
+  const bar = (c) => (
+    <div className="bar" role="img" aria-label={`${pct(c.done, c.total)}%`}>
+      <i className="done" style={{ width: `${pct(c.done, c.total)}%` }} />
+      <i className="doing" style={{ width: `${pct(c.doing, c.total)}%` }} />
+    </div>
+  )
+  const weeks = Object.entries(data.weeks || {}).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  return (
+    <div>
+      <h4 style={{ margin: '0 0 6px' }}>{lang === 'ko' ? '전체 진행률' : 'Overall'} {pct(data.done, data.total)}%</h4>
+      {bar(data)}
+      <p className="muted">
+        {lang === 'ko' ? '완료' : 'Done'} {data.done} · {lang === 'ko' ? '진행 중' : 'In progress'} {data.doing} · {lang === 'ko' ? '할 일' : 'To do'} {data.todo} / {data.total}
+      </p>
+      {weeks.map(([w, c]) => (
+        <div key={w} className="wk">
+          <span>{w === 'etc' ? (lang === 'ko' ? '기타' : 'Other') : w}</span>
+          {bar(c)}
+          <span>{c.done}/{c.total}</span>
+        </div>
+      ))}
+      <p className="muted">{lang === 'ko' ? '업데이트' : 'Updated'} {data.updated?.slice(0, 16).replace('T', ' ')} UTC</p>
+    </div>
+  )
+}
+
 // detail view: left table of contents (overview + files), right content.
 // files come from project_files, filled by scripts/sync.mjs from content/<slug>/
 function Detail({ p, t, lang }) {
   const [paths, setPaths] = useState([])
   const [sel, setSel] = useState('') // '' = overview
   const [text, setText] = useState('')
+  const [jira, setJira] = useState(null)
   const q = `project_files?project=eq.${encodeURIComponent(p.slug)}`
 
   useEffect(() => {
@@ -25,7 +55,11 @@ function Detail({ p, t, lang }) {
   }, [p.slug])
 
   useEffect(() => {
-    if (!sel) return
+    get(`site?key=eq.${encodeURIComponent('jira_progress:' + p.slug)}`).then((r) => setJira(r[0]?.value ?? null)).catch(() => setJira(null))
+  }, [p.slug])
+
+  useEffect(() => {
+    if (!sel || sel === '@progress') return
     setText('…')
     get(`${q}&path=eq.${encodeURIComponent(sel)}&select=content`)
       .then((r) => setText(r[0]?.content ?? ''))
@@ -44,6 +78,11 @@ function Detail({ p, t, lang }) {
         <button className={!sel ? 'on' : ''} onClick={() => setSel('')}>
           {lang === 'ko' ? '개요' : 'Overview'}
         </button>
+        {jira && (
+          <button className={sel === '@progress' ? 'on' : ''} onClick={() => setSel('@progress')}>
+            {lang === 'ko' ? '진행 현황' : 'Progress'}
+          </button>
+        )}
         {rootFirst.map((dir) => (
           <div key={dir}>
             {dir && <div className="dir" style={{ paddingLeft: 8 }}>{dir}/</div>}
@@ -56,7 +95,9 @@ function Detail({ p, t, lang }) {
         ))}
       </nav>
       <div className="pane">
-        {sel ? (
+        {sel === '@progress' ? (
+          <Progress data={jira} lang={lang} />
+        ) : sel ? (
           sel.endsWith('.md') ? <Md>{text}</Md> : <pre>{text}</pre>
         ) : (
           <>
