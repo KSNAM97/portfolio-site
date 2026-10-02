@@ -2,7 +2,7 @@ name: sync-portfolio
 on:
   push:
     branches: [main]
-    paths: [portfolio.config.json, scripts/sync.mjs]
+    paths: [portfolio.config.json, scripts/sync.mjs, "content/**"]
   schedule: [{ cron: '0 0 * * *' }] # daily, refreshes stars / last push
   workflow_dispatch:
 jobs:
