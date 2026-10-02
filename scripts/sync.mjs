@@ -45,19 +45,50 @@ await sb('projects?on_conflict=slug', { method: 'POST', body: JSON.stringify(row
 // drop rows whose repo was removed/excluded
 await sb(`projects?slug=not.in.(${rows.map((r) => `"${r.slug}"`).join(',')})`, { method: 'DELETE' })
 
-// files shown in the detail view: content/<project-slug>/<path>
+// files shown in the detail view.
+// 1) fallback: content/<project-slug>/<path> committed in this repo
+const norm = (t) => t.replace(/^﻿/, '').replace(/\r\n/g, '\n')
 const dir = fileURLToPath(new URL('../content/', import.meta.url))
-const files = readdirSync(dir, { recursive: true })
-  .map((p) => p.replaceAll('\\', '/'))
-  .filter((p) => p.includes('/') && statSync(dir + p).isFile())
-  .map((p) => {
-    const [project, ...rest] = p.split('/')
-    const content = readFileSync(dir + p, 'utf8').replace(/^﻿/, '').replace(/\r\n/g, '\n')
-    return { project, path: rest.join('/'), content }
-  })
-await sb('project_files?on_conflict=project,path', { method: 'POST', body: JSON.stringify(files) })
-for (const project of new Set(files.map((f) => f.project))) {
-  const keep = files.filter((f) => f.project === project).map((f) => `"${f.path}"`).join(',')
+const byProject = {}
+for (const p of readdirSync(dir, { recursive: true }).map((x) => x.replaceAll('\\', '/'))) {
+  if (!p.includes('/') || !statSync(dir + p).isFile()) continue
+  const [project, ...rest] = p.split('/')
+  ;(byProject[project] ||= {})[rest.join('/')] = norm(readFileSync(dir + p, 'utf8'))
+}
+
+// 2) source of truth: files read straight from the GitHub repos listed in cfg.sources.
+//    A private repo needs SOURCE_REPO_TOKEN (read-only contents access); on any failure the fallback stays.
+const fetchSource = async ({ repo, include, branch = 'main' }) => {
+  const h = { Authorization: `Bearer ${process.env.SOURCE_REPO_TOKEN?.trim() || GITHUB_TOKEN}`, 'X-GitHub-Api-Version': '2022-11-28' }
+  const t = await fetch(`https://api.github.com/repos/${repo}/git/trees/${branch}?recursive=1`, { headers: h })
+  if (!t.ok) throw new Error(`tree ${t.status}`)
+  const wanted = (await t.json()).tree.filter((e) =>
+    e.type === 'blob' && e.size < 300000 && /\.(md|cfg|vpc|txt)$/i.test(e.path) &&
+    include.some((i) => e.path === i || (i.endsWith('/') && e.path.startsWith(i))))
+  if (!wanted.length) throw new Error('no matching files')
+  const out = {}
+  for (const e of wanted) {
+    const r = await fetch(`https://api.github.com/repos/${repo}/contents/${e.path.split('/').map(encodeURIComponent).join('/')}?ref=${branch}`,
+      { headers: { ...h, Accept: 'application/vnd.github.raw+json' } })
+    if (!r.ok) throw new Error(`${e.path} ${r.status}`)
+    out[e.path] = norm(await r.text())
+  }
+  return out
+}
+for (const s of cfg.sources ?? []) {
+  try {
+    byProject[s.slug] = await fetchSource(s)
+    console.log(`source ${s.repo}: ${Object.keys(byProject[s.slug]).length} files from GitHub`)
+  } catch (e) {
+    console.warn(`source ${s.repo}: ${e.message} - keeping ${byProject[s.slug] ? 'content/ fallback' : 'existing rows'}`)
+  }
+}
+
+const files = Object.entries(byProject).flatMap(([project, m]) =>
+  Object.entries(m).map(([path, content]) => ({ project, path, content })))
+if (files.length) await sb('project_files?on_conflict=project,path', { method: 'POST', body: JSON.stringify(files) })
+for (const [project, m] of Object.entries(byProject)) {
+  const keep = Object.keys(m).map((x) => `"${x}"`).join(',')
   await sb(`project_files?project=eq.${project}&path=not.in.(${keep})`, { method: 'DELETE' })
 }
 console.log(`synced ${rows.length} projects, ${files.length} files`)

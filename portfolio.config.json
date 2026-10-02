@@ -8,10 +8,21 @@
     "email": "nks026400@gmail.com",
     "github": "https://github.com/KSNAM97",
     "notion": "https://positive-iodine-faf.notion.site/KiSuk-Nam-Network-Infra-Engineer-Portfolio-395f603626cb802b82e1c95c2f8a2a30",
-    "stack": ["Cisco IOS", "GNS3", "Packet Tracer", "Rocky Linux", "Docker", "Kubernetes", "Ansible", "AWS"]
+    "stack": [
+      "Cisco IOS",
+      "GNS3",
+      "Packet Tracer",
+      "Rocky Linux",
+      "Docker",
+      "Kubernetes",
+      "Ansible",
+      "AWS"
+    ]
   },
   "github_user": "KSNAM97",
-  "include": ["cisco-dmvpn-ipsec-network"],
+  "include": [
+    "cisco-dmvpn-ipsec-network"
+  ],
   "extra_projects": [
     {
       "slug": "multivendor-hybrid-network",
@@ -19,7 +30,16 @@
       "title_en": "Multi-vendor Hybrid Network (Team Project)",
       "summary_ko": "HQ/DC/BR1/BR2 4개 사이트를 ISP 이중화(eBGP)와 DMVPN Phase3(mGRE over IPsec)으로 연결. DC는 Arista cEOS, 나머지는 Cisco이며 DC 서버 VLAN에 DNS 이중화와 DB 서버를 배치. HSRP/VARP, QoS, 화이트리스트 ACL, 장애 실측까지 GNS3로 구현.",
       "summary_en": "Four sites (HQ/DC/BR1/BR2) joined by dual-ISP eBGP and DMVPN Phase 3 (mGRE over IPsec). Arista cEOS in the DC, Cisco elsewhere, with redundant DNS and a DB server in the DC server VLAN. HSRP/VARP, QoS, whitelist ACLs and failover tests built in GNS3.",
-      "tags": ["DMVPN", "IPsec", "eBGP", "OSPF", "HSRP", "QoS", "Arista cEOS", "GNS3"],
+      "tags": [
+        "DMVPN",
+        "IPsec",
+        "eBGP",
+        "OSPF",
+        "HSRP",
+        "QoS",
+        "Arista cEOS",
+        "GNS3"
+      ],
       "image": "/topology.webp",
       "featured": true,
       "sort": 0
@@ -30,7 +50,14 @@
       "title_en": "Network Wiki (GitBook)",
       "summary_ko": "Cisco IOS / IOS XE 기반 네트워크 핵심 개념과 설정 정리. VLAN, 라우팅(EIGRP·OSPF), ACL, VPN, STP, EtherChannel, 게이트웨이 이중화까지 27개 문서.",
       "summary_en": "Notes on core networking concepts and Cisco IOS / IOS XE configuration: VLAN, routing (EIGRP, OSPF), ACL, VPN, STP, EtherChannel and gateway redundancy, in 27 documents.",
-      "tags": ["Cisco IOS", "OSPF", "EIGRP", "VLAN", "ACL", "VPN"],
+      "tags": [
+        "Cisco IOS",
+        "OSPF",
+        "EIGRP",
+        "VLAN",
+        "ACL",
+        "VPN"
+      ],
       "url": "https://ksnam97.gitbook.io/network_wiki/",
       "sort": 10
     },
@@ -40,7 +67,14 @@
       "title_en": "System Wiki (GitBook)",
       "summary_ko": "Rocky Linux 9 기반 시스템 관리부터 쉘 스크립트, DB, Docker, Kubernetes, AWS, Python까지 7개 카테고리 90개 문서.",
       "summary_en": "System engineering notes from Rocky Linux 9 administration to shell scripting, databases, Docker, Kubernetes, AWS and Python: 7 categories, 90 documents.",
-      "tags": ["Rocky Linux", "Docker", "Kubernetes", "Shell", "AWS", "Python"],
+      "tags": [
+        "Rocky Linux",
+        "Docker",
+        "Kubernetes",
+        "Shell",
+        "AWS",
+        "Python"
+      ],
       "url": "https://ksnam97.gitbook.io/system_wiki/",
       "sort": 12
     },
@@ -50,7 +84,14 @@
       "title_en": "Network Guide (GitBook)",
       "summary_ko": "Cisco 라우팅·스위칭 실습 가이드. RIP, EIGRP, OSPF, 재분배, ACL, 경로 필터링, VLAN·STP·VTP, 스위치 보안을 주제별 통합 정리, 트러블슈팅 치트시트, 퀵 레퍼런스로 구성.",
       "summary_en": "Cisco routing and switching lab guide covering RIP, EIGRP, OSPF, redistribution, ACL, route filtering, VLAN/STP/VTP and switch security. Each topic has a consolidated summary, a troubleshooting cheat sheet and a quick reference.",
-      "tags": ["Cisco IOS", "OSPF", "EIGRP", "ACL", "STP", "Troubleshooting"],
+      "tags": [
+        "Cisco IOS",
+        "OSPF",
+        "EIGRP",
+        "ACL",
+        "STP",
+        "Troubleshooting"
+      ],
       "url": "https://ksnam97.gitbook.io/network_guide/",
       "sort": 11
     },
@@ -60,7 +101,13 @@
       "title_en": "System Guide (GitBook)",
       "summary_ko": "Rocky Linux 9와 Bash 실무 명령어 가이드. 파일시스템, VI, 계정·권한, 압축, 파티션·마운트, RAID 등을 주제별 통합 정리, 트러블슈팅 치트시트, 퀵 레퍼런스로 구성.",
       "summary_en": "Practical Rocky Linux 9 and Bash command guide covering the filesystem, VI, accounts and permissions, archiving, partitions and mounts, and RAID. Each topic has a consolidated summary, a troubleshooting cheat sheet and a quick reference.",
-      "tags": ["Rocky Linux", "Bash", "VI", "RAID", "Permissions"],
+      "tags": [
+        "Rocky Linux",
+        "Bash",
+        "VI",
+        "RAID",
+        "Permissions"
+      ],
       "url": "https://ksnam97.gitbook.io/system/",
       "sort": 13
     }
@@ -73,10 +120,54 @@
       "title_en": "DMVPN + IPsec HQ-Branch WAN",
       "summary_ko": "본사 이중 Edge(허브)와 지사 4곳을 DMVPN Phase2/3(mGRE over IPsec AES-256)으로 연결. OSPF Area 0와 EIGRP AS100/200을 태그 기반 재분배로 통합하고, HSRP Track 이중화, VTPv3, EtherChannel, NAT/PAT까지 GNS3로 구현.",
       "summary_en": "Dual HQ edge hubs and four branches joined by DMVPN Phase 2/3 (mGRE over IPsec AES-256). OSPF Area 0 and EIGRP AS100/200 are merged with tag-based redistribution, plus HSRP tracking, VTPv3, EtherChannel and NAT/PAT, built in GNS3.",
-      "tags": ["DMVPN", "IPsec", "OSPF", "EIGRP", "HSRP", "NAT", "GNS3"],
+      "tags": [
+        "DMVPN",
+        "IPsec",
+        "OSPF",
+        "EIGRP",
+        "HSRP",
+        "NAT",
+        "GNS3"
+      ],
       "image": "/dmvpn-topology.webp"
     },
-    "IPsec-Network-Security-Lab": { "featured": true, "sort": 2, "tags": ["IPsec", "NAT", "CBAC"] },
-    "Campus-VLAN-OSPF-NTP-Security": { "featured": true, "sort": 3, "tags": ["VLAN", "OSPF", "NTP"] }
-  }
+    "IPsec-Network-Security-Lab": {
+      "featured": true,
+      "sort": 2,
+      "tags": [
+        "IPsec",
+        "NAT",
+        "CBAC"
+      ]
+    },
+    "Campus-VLAN-OSPF-NTP-Security": {
+      "featured": true,
+      "sort": 3,
+      "tags": [
+        "VLAN",
+        "OSPF",
+        "NTP"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "slug": "cisco-dmvpn-ipsec-network",
+      "repo": "KSNAM97/cisco-dmvpn-ipsec-network",
+      "include": [
+        "README.md",
+        "configs/",
+        "verification/"
+      ]
+    },
+    {
+      "slug": "multivendor-hybrid-network",
+      "repo": "KSNAM97/network-project",
+      "include": [
+        "README.md",
+        "docs/",
+        "configs/"
+      ]
+    }
+  ]
 }

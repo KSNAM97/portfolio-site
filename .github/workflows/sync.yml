@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths: [portfolio.config.json, scripts/sync.mjs, "content/**"]
-  schedule: [{ cron: '0 0 * * *' }] # daily, refreshes stars / last push
+  schedule: [{ cron: '0 * * * *' }] # hourly: picks up edits in the source repos, stars, last push
   workflow_dispatch:
 jobs:
   sync:
@@ -17,3 +17,4 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }} # optional: read-only token for the private network-project repo
