@@ -41,6 +41,13 @@ const tickets = data.map((r) => ({
 }))
 
 // 2) what exists already, and which issue types the project offers
+// who am I, and which projects are visible? (booleans/counts only: this log is public)
+const me = await call('myself')
+const meJson = me.ok ? await me.json() : {}
+const ps = await call('project/search?maxResults=100')
+const visible = ps.ok ? (await ps.json()).values ?? [] : []
+console.log(`auth: myself=${me.status} accountId=${Boolean(meJson.accountId)} | visible projects=${visible.length} | ${cfg.project_key} visible=${visible.some((p) => p.key === cfg.project_key)}`)
+if (!meJson.accountId) throw new Error('Jira did not accept JIRA_EMAIL / JIRA_API_TOKEN (requests are anonymous)')
 const existing = new Set()
 let next
 do {
