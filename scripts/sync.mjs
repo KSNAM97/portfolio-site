@@ -63,7 +63,13 @@ const fetchSource = async ({ repo, include, branch = 'main', private: isPrivate 
   const token = (isPrivate && process.env.SOURCE_REPO_TOKEN?.trim()) || GITHUB_TOKEN
   const h = { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
   const t = await fetch(`https://api.github.com/repos/${repo}/git/trees/${branch}?recursive=1`, { headers: h })
-  if (!t.ok) throw new Error(`tree ${t.status}`)
+  if (!t.ok) {
+    // never print the token: only its kind and shape, to spot paste mistakes (public Actions log)
+    const raw = process.env.SOURCE_REPO_TOKEN ?? ''
+    const kind = isPrivate ? (raw.startsWith('github_pat_') ? 'fine-grained' : raw.startsWith('ghp_') ? 'classic' : raw ? 'unknown-format' : 'empty') : 'default'
+    const odd = /^["']|["']$|\s/.test(raw.replace(/\r?\n$/, '')) ? ' has-quote-or-space' : ''
+    throw new Error(`tree ${t.status} (token: ${kind}, ${raw.trim().length} chars${odd}; ${t.headers.get('x-accepted-github-permissions') ?? 'no perms header'})`)
+  }
   const wanted = (await t.json()).tree.filter((e) =>
     e.type === 'blob' && e.size < 300000 && /\.(md|cfg|vpc|txt)$/i.test(e.path) &&
     include.some((i) => e.path === i || (i.endsWith('/') && e.path.startsWith(i))))
