@@ -104,6 +104,7 @@
 11. 문의 폼 웹훅(`SLACK_CONTACT_WEBHOOK_URL`)을 Vercel에 등록하고 재배포. `/api/contact` 테스트 응답 200 확인(Slack 도착은 화면 읽기 한계로 육안 확인 필요).
 12. 진행 현황을 실시간으로 반영하는 `/api/jira-progress` 추가(Vercel에 `JIRA_*` 환경변수 3개 등록). 인증 오류 방어 코드를 넣고 반영 속도를 측정(약 9초).
 13. (2026-10-06) 멀티벤더 카드·파일·진행률을 사이트에서 숨기고(`portfolio.config.json`의 `paused`에 설정 보관, `public/topology.webp` 삭제) `network-project`를 비공개로 되돌림. Notion 링크 제거. Jira 진행률이 없으면 `/api/jira-progress`는 404. 재개: `paused` 항목을 `extra_projects`/`sources`/`jira`로 복원, 저장소 공개 또는 읽기 토큰 등록, 다이어그램 복원. 비공개 동안 `jira-import`/`slack-announce`는 읽기 토큰 없이는 실패.
+14. (2026-10-06) Jira–GitHub 연결 완료(`GitHub for Atlassian`, 계정 KSNAM97, 권한 Full Access). `network-project`에 `KAN-4:` 테스트 커밋을 push해 Jira 이슈의 개발 정보에 커밋 1건이 붙는 것을 확인(반영까지 1~2분)하고 마무리 커밋으로 닫음. 접근 범위가 `All repos`로 표시되어 `network-project`만으로 줄이는 것은 사용자 선택 사항.
 
 ## 9. 점검 결과 (2026-10-02)
 
@@ -130,6 +131,6 @@
 - GitHub 설정에서 `portfolio-source-read` 토큰(읽기용, 더 이상 쓰이지 않음) 폐기. 시크릿 `SOURCE_REPO_TOKEN`은 2026-10-02에 삭제 완료.
 - Slack 봇 권한(`channels:manage`, `chat:write`) 축소 또는 `SLACK_BOT_TOKEN` 삭제.
 - 팀원을 Slack 채널과 GitHub에 초대. `final-project` 팀 공지를 `#announcements`에 게시.
-- **다음 작업 시작 지점: Jira–GitHub 연결 마무리.** 상태: Jira 사이트에 `GitHub for Atlassian` 앱 설치 완료(2026-10-02). 남은 단계: 앱 화면 `Connect GitHub to Atlassian` → GitHub Cloud → `Go to GitHub`(팝업이라 **사용자가 직접 클릭**) → 계정 `KSNAM97`, `Only select repositories`에서 `network-project`만 선택 → Install & Authorize. 연결 후 `KAN-<번호>:`로 시작하는 커밋 메시지로 작은 문서 변경을 push해 Jira 이슈의 개발 패널에 붙는지 확인하고 되돌린다. 커밋 작성자는 `KiSukNam`.
+- Jira–GitHub 연결은 완료됨(변경 이력 14). 선택: 연결 범위를 `network-project`만으로 축소.
 - 도메인 `ksnam97.com`은 2027-09-10 만료, 자동 갱신 꺼짐. 호스티드 존 월 $0.50.
 - `slack-announce`는 재실행하면 공지가 중복 게시됩니다.
