@@ -30,7 +30,7 @@
 | repo | 공개 여부 | 역할 |
 |---|---|---|
 | `KSNAM97/portfolio-site` | public | 사이트 코드, 동기화 스크립트, Actions |
-| `KSNAM97/network-project` | public (2026-10-02 전환) | 멀티벤더 하이브리드 네트워크 팀 프로젝트 문서·컨피그 |
+| `KSNAM97/network-project` | private (2026-10-06 비공개 전환, 사이트에서 숨김) | 멀티벤더 하이브리드 네트워크 팀 프로젝트 문서·컨피그. 프로젝트 시작 전이라 보류 |
 | `KSNAM97/cisco-dmvpn-ipsec-network` | public | DMVPN + IPsec 프로젝트 컨피그 |
 
 - 사이트에 노출되는 파일은 `portfolio.config.json`의 `sources[].include`로 정합니다. 현재: `README.md`, `docs/`, `configs/`(DMVPN은 `verification/`도).
@@ -103,6 +103,7 @@
 10. 알림 조건에 `해야 할 일`을 추가해 세 팀 채널 모두 적용하고, 팀별로 `진행 중`/`해야 할 일` 전환 알림이 해당 채널에만 가는 것을 확인.
 11. 문의 폼 웹훅(`SLACK_CONTACT_WEBHOOK_URL`)을 Vercel에 등록하고 재배포. `/api/contact` 테스트 응답 200 확인(Slack 도착은 화면 읽기 한계로 육안 확인 필요).
 12. 진행 현황을 실시간으로 반영하는 `/api/jira-progress` 추가(Vercel에 `JIRA_*` 환경변수 3개 등록). 인증 오류 방어 코드를 넣고 반영 속도를 측정(약 9초).
+13. (2026-10-06) 멀티벤더 카드·파일·진행률을 사이트에서 숨기고(`portfolio.config.json`의 `paused`에 설정 보관, `public/topology.webp` 삭제) `network-project`를 비공개로 되돌림. Notion 링크 제거. Jira 진행률이 없으면 `/api/jira-progress`는 404. 재개: `paused` 항목을 `extra_projects`/`sources`/`jira`로 복원, 저장소 공개 또는 읽기 토큰 등록, 다이어그램 복원. 비공개 동안 `jira-import`/`slack-announce`는 읽기 토큰 없이는 실패.
 
 ## 9. 점검 결과 (2026-10-02)
 
