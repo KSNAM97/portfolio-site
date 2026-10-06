@@ -150,7 +150,7 @@ export default function Projects() {
       <h2>{t(profile, 'role')}</h2>
       <p>{t(profile, 'bio')}</p>
       <p>
-        <a href={profile.github}>GitHub</a> · <a href={profile.notion}>Notion</a> ·{' '}
+        <a href={profile.github}>GitHub</a> ·{' '}
         <a href={`mailto:${profile.email}`}>Email</a>
       </p>
       <ul className="tags">{profile.stack.map((s) => <li key={s}>{s}</li>)}</ul>

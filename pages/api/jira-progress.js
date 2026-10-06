@@ -6,6 +6,15 @@ export default async function handler(req, res) {
   const project = process.env.JIRA_PROJECT_KEY?.trim() || 'KAN'
   if (!JIRA_BASE_URL?.trim() || !JIRA_EMAIL?.trim() || !JIRA_API_TOKEN?.trim()) return res.status(503).json({ error: 'not-configured' })
 
+  // only live while the site shows Jira progress for some project (rows exist in site.jira_progress:*); hidden projects close it
+  try {
+    const su = process.env.NEXT_PUBLIC_SUPABASE_URL, sk = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const g = await fetch(`${su}/rest/v1/site?key=like.jira_progress:*&select=key&limit=1`, { headers: { apikey: sk, ...(sk?.startsWith('eyJ') && { Authorization: `Bearer ${sk}` }) } })
+    if (!g.ok || !(await g.json()).length) return res.status(404).json({ error: 'disabled' })
+  } catch {
+    return res.status(404).json({ error: 'disabled' })
+  }
+
   const base = JIRA_BASE_URL.trim().replace(/\/$/, '')
   const headers = {
     Authorization: 'Basic ' + Buffer.from(`${JIRA_EMAIL.trim()}:${JIRA_API_TOKEN.trim()}`).toString('base64'),

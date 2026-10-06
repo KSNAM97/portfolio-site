@@ -44,6 +44,12 @@ await sb('site?on_conflict=key', { method: 'POST', body: JSON.stringify({ key: '
 await sb('projects?on_conflict=slug', { method: 'POST', body: JSON.stringify(rows) })
 // drop rows whose repo was removed/excluded
 await sb(`projects?slug=not.in.(${rows.map((r) => `"${r.slug}"`).join(',')})`, { method: 'DELETE' })
+// a hidden/paused project must vanish completely: its files and its Jira progress row too
+await sb(`project_files?project=not.in.(${rows.map((r) => `"${r.slug}"`).join(',')})`, { method: 'DELETE' })
+{
+  const keepJira = (cfg.jira ?? []).map((j) => `"jira_progress:${j.slug}"`).join(',')
+  await sb(`site?and=(key.like.jira_progress:*${keepJira ? `,key.not.in.(${keepJira})` : ''})`, { method: 'DELETE' })
+}
 
 // files shown in the detail view.
 // 1) optional fallback: content/<project-slug>/<path> committed in this repo (the folder may be absent)

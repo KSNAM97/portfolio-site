@@ -7,7 +7,6 @@
     "bio_en": "Hands-on labs with GNS3 / Cisco IOS, expanding into Linux, Docker, K8s and Cloud. Learning by building & breaking.",
     "email": "nks026400@gmail.com",
     "github": "https://github.com/KSNAM97",
-    "notion": "https://positive-iodine-faf.notion.site/KiSuk-Nam-Network-Infra-Engineer-Portfolio-395f603626cb802b82e1c95c2f8a2a30",
     "stack": [
       "Cisco IOS",
       "GNS3",
@@ -24,26 +23,6 @@
     "cisco-dmvpn-ipsec-network"
   ],
   "extra_projects": [
-    {
-      "slug": "multivendor-hybrid-network",
-      "title_ko": "멀티벤더 하이브리드 네트워크 (팀 프로젝트)",
-      "title_en": "Multi-vendor Hybrid Network (Team Project)",
-      "summary_ko": "HQ/DC/BR1/BR2 4개 사이트를 ISP 이중화(eBGP)와 DMVPN Phase3(mGRE over IPsec)으로 연결. DC는 Arista cEOS, 나머지는 Cisco이며 DC 서버 VLAN에 DNS 이중화와 DB 서버를 배치. HSRP/VARP, QoS, 화이트리스트 ACL, 장애 실측까지 GNS3로 구현.",
-      "summary_en": "Four sites (HQ/DC/BR1/BR2) joined by dual-ISP eBGP and DMVPN Phase 3 (mGRE over IPsec). Arista cEOS in the DC, Cisco elsewhere, with redundant DNS and a DB server in the DC server VLAN. HSRP/VARP, QoS, whitelist ACLs and failover tests built in GNS3.",
-      "tags": [
-        "DMVPN",
-        "IPsec",
-        "eBGP",
-        "OSPF",
-        "HSRP",
-        "QoS",
-        "Arista cEOS",
-        "GNS3"
-      ],
-      "image": "/topology.webp",
-      "featured": true,
-      "sort": 0
-    },
     {
       "slug": "network-wiki",
       "title_ko": "Network Wiki (GitBook)",
@@ -159,23 +138,9 @@
         "configs/",
         "verification/"
       ]
-    },
-    {
-      "slug": "multivendor-hybrid-network",
-      "repo": "KSNAM97/network-project",
-      "include": [
-        "README.md",
-        "docs/",
-        "configs/"
-      ]
     }
   ],
-  "jira": [
-    {
-      "slug": "multivendor-hybrid-network",
-      "project_key": "KAN"
-    }
-  ],
+  "jira": [],
   "jira_import": {
     "repo": "KSNAM97/network-project",
     "file": "jira/jira-tickets-3person.csv",
@@ -208,6 +173,48 @@
     "file": "slack/2026-10-02-setup-summary.md",
     "channels": [
       "announcements"
+    ]
+  },
+  "paused": {
+    "note": "Hidden until the team project starts. To show it again, move these back to extra_projects / sources / jira, make network-project public (or provide a read token), and restore public/topology.webp.",
+    "extra_projects": [
+      {
+        "slug": "multivendor-hybrid-network",
+        "title_ko": "멀티벤더 하이브리드 네트워크 (팀 프로젝트)",
+        "title_en": "Multi-vendor Hybrid Network (Team Project)",
+        "summary_ko": "HQ/DC/BR1/BR2 4개 사이트를 ISP 이중화(eBGP)와 DMVPN Phase3(mGRE over IPsec)으로 연결. DC는 Arista cEOS, 나머지는 Cisco이며 DC 서버 VLAN에 DNS 이중화와 DB 서버를 배치. HSRP/VARP, QoS, 화이트리스트 ACL, 장애 실측까지 GNS3로 구현.",
+        "summary_en": "Four sites (HQ/DC/BR1/BR2) joined by dual-ISP eBGP and DMVPN Phase 3 (mGRE over IPsec). Arista cEOS in the DC, Cisco elsewhere, with redundant DNS and a DB server in the DC server VLAN. HSRP/VARP, QoS, whitelist ACLs and failover tests built in GNS3.",
+        "tags": [
+          "DMVPN",
+          "IPsec",
+          "eBGP",
+          "OSPF",
+          "HSRP",
+          "QoS",
+          "Arista cEOS",
+          "GNS3"
+        ],
+        "image": "/topology.webp",
+        "featured": true,
+        "sort": 0
+      }
+    ],
+    "sources": [
+      {
+        "slug": "multivendor-hybrid-network",
+        "repo": "KSNAM97/network-project",
+        "include": [
+          "README.md",
+          "docs/",
+          "configs/"
+        ]
+      }
+    ],
+    "jira": [
+      {
+        "slug": "multivendor-hybrid-network",
+        "project_key": "KAN"
+      }
     ]
   }
 }
