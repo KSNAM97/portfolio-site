@@ -106,6 +106,7 @@
 13. (2026-10-06) 멀티벤더 카드·파일·진행률을 사이트에서 숨기고(`portfolio.config.json`의 `paused`에 설정 보관, `public/topology.webp` 삭제) `network-project`를 비공개로 되돌림. Notion 링크 제거. Jira 진행률이 없으면 `/api/jira-progress`는 404. 재개: `paused` 항목을 `extra_projects`/`sources`/`jira`로 복원, 저장소 공개 또는 읽기 토큰 등록, 다이어그램 복원. 비공개 동안 `jira-import`/`slack-announce`는 읽기 토큰 없이는 실패.
 14. (2026-10-06) Jira–GitHub 연결 완료(`GitHub for Atlassian`, 계정 KSNAM97, 권한 Full Access). `network-project`에 `KAN-4:` 테스트 커밋을 push해 Jira 이슈의 개발 정보에 커밋 1건이 붙는 것을 확인(반영까지 1~2분)하고 마무리 커밋으로 닫음. 접근 범위가 `All repos`였으나 같은 날 GitHub 설정(Installed GitHub Apps > Atlassian)에서 `Only select repositories` = `network-project` 하나로 축소함.
 15. (2026-10-08) 2인 체제 확정(Net-Cloud 남기석 / Policy 남인탁). 저장소 문서·Slack 문서를 2인 기준으로 갱신, Slack `#team-network`를 `#team-net-cloud`로 이름 변경(채널 ID 유지), policy 전용 이슈 6개(KAN-12, 13, 22, 23, 26, 31)의 담당자를 남인탁으로 지정, GNS3 장비명을 문서 기준으로 통일, DC 서버 VLAN을 DNS1·DB1 두 대로 정리. 이후 사용자가 `#team-net-cloud` Jira 필터를 수정하고 `#team-cloud`를 정리·보관함. 확인: KAN-8(cloud 라벨)을 `해야 할 일`↔`진행 중`으로 옮겨 알림이 `#team-net-cloud`에만 오고 `#team-policy`에는 오지 않음을 확인(테스트 후 원래 상태로 복구). `#dev-issues`는 연결 없음.
+16. (2026-10-08) 일정을 다음 주(2026-10-12)부터 3.5주(11-04까지)로 변경. network-project의 일정·README·설계 문서를 압축 일정으로 갱신하고, Jira 제목의 [W1]~[W6] 표기는 그대로 두고 실제 일정과의 대응표를 `docs/schedule-2person.md`에 추가. 이 날 `#team-policy`에 policy 담당자를 초대하고, Jira policy 이슈 15개에 담당자(6개)와 관찰자(9개)로 지정.
 
 ## 9. 점검 결과 (2026-10-02)
 
