@@ -84,8 +84,8 @@
 ## 7. Jira / Slack
 
 - Jira: 사이트 `final-project-ksnam97`, 프로젝트 키 `KAN` (팀 관리형 칸반). 이슈 29개 생성 (`KAN-4` ~ `KAN-32`, 유형 `작업`). 키는 샘플 이슈 3개가 지워지며 4번부터 시작했고 Jira에서 되돌릴 수 없음. 제목의 `[W1]`~`[W6]` 접두어로 사이트가 주차별 진행률을 계산 (숫자만 노출, 제목은 저장·노출 안 함).
-- Slack 워크스페이스 `final-project`. 채널: `#announcements`, `#team-net-cloud`(구 `#team-network`), `#team-policy`, `#dev-issues`. `#team-cloud`는 2인 체제 확정으로 정리 대상(보관 예정).
-- Jira Cloud 앱 연결: `#team-net-cloud`(현재 labels=network, 변경 예정: network, cloud, net-cloud 중 하나), `#team-cloud`(labels=cloud, 연결 해제 후 보관 예정), `#team-policy`(labels=policy). **`#dev-issues`는 제외**. `#announcements`는 연결 안 함.
+- Slack 워크스페이스 `final-project`. 채널: `#announcements`, `#team-net-cloud`(구 `#team-network`), `#team-policy`, `#dev-issues`. `#team-cloud`는 2인 체제 확정으로 정리됨(보관).
+- Jira Cloud 앱 연결: `#team-net-cloud`(network, cloud, net-cloud 라벨), `#team-policy`(labels=policy). `#team-cloud`는 보관됨. **`#dev-issues`는 제외**. `#announcements`는 연결 안 함.
 - 알림 조건(세 팀 채널 공통): `Issue is = created` + `Status is transitioned to = 진행 중, 해야 할 일, 완료`. 상태 조건을 비워 두면 이슈 생성 때만 알림이 오므로 반드시 채워 둘 것(2026-10-02 수정). 되돌릴 때(`해야 할 일`)도 알림이 간다.
 - 팀 공지: 최종 설계 공지는 `#team-network`, `#team-cloud`, `#team-policy`에 게시 완료. 사전작업 요약 공지(`slack/2026-10-02-setup-summary.md`)는 `#announcements`에 게시.
 
@@ -105,7 +105,7 @@
 12. 진행 현황을 실시간으로 반영하는 `/api/jira-progress` 추가(Vercel에 `JIRA_*` 환경변수 3개 등록). 인증 오류 방어 코드를 넣고 반영 속도를 측정(약 9초).
 13. (2026-10-06) 멀티벤더 카드·파일·진행률을 사이트에서 숨기고(`portfolio.config.json`의 `paused`에 설정 보관, `public/topology.webp` 삭제) `network-project`를 비공개로 되돌림. Notion 링크 제거. Jira 진행률이 없으면 `/api/jira-progress`는 404. 재개: `paused` 항목을 `extra_projects`/`sources`/`jira`로 복원, 저장소 공개 또는 읽기 토큰 등록, 다이어그램 복원. 비공개 동안 `jira-import`/`slack-announce`는 읽기 토큰 없이는 실패.
 14. (2026-10-06) Jira–GitHub 연결 완료(`GitHub for Atlassian`, 계정 KSNAM97, 권한 Full Access). `network-project`에 `KAN-4:` 테스트 커밋을 push해 Jira 이슈의 개발 정보에 커밋 1건이 붙는 것을 확인(반영까지 1~2분)하고 마무리 커밋으로 닫음. 접근 범위가 `All repos`였으나 같은 날 GitHub 설정(Installed GitHub Apps > Atlassian)에서 `Only select repositories` = `network-project` 하나로 축소함.
-15. (2026-10-08) 2인 체제 확정(Net-Cloud 남기석 / Policy 남인탁). 저장소 문서·Slack 문서를 2인 기준으로 갱신, Slack `#team-network`를 `#team-net-cloud`로 이름 변경(채널 ID 유지), policy 전용 이슈 6개(KAN-12, 13, 22, 23, 26, 31)의 담당자를 남인탁으로 지정, GNS3 장비명을 문서 기준으로 통일, DC 서버 VLAN을 DNS1·DB1 두 대로 정리. 남은 일: `#team-net-cloud` Jira 필터 수정, `#team-cloud` 연결 해제와 보관(둘 다 Slack의 Jira `Manage` 팝업을 사용자가 열어야 함).
+15. (2026-10-08) 2인 체제 확정(Net-Cloud 남기석 / Policy 남인탁). 저장소 문서·Slack 문서를 2인 기준으로 갱신, Slack `#team-network`를 `#team-net-cloud`로 이름 변경(채널 ID 유지), policy 전용 이슈 6개(KAN-12, 13, 22, 23, 26, 31)의 담당자를 남인탁으로 지정, GNS3 장비명을 문서 기준으로 통일, DC 서버 VLAN을 DNS1·DB1 두 대로 정리. 이후 사용자가 `#team-net-cloud` Jira 필터를 수정하고 `#team-cloud`를 정리·보관함. 확인: KAN-8(cloud 라벨)을 `해야 할 일`↔`진행 중`으로 옮겨 알림이 `#team-net-cloud`에만 오고 `#team-policy`에는 오지 않음을 확인(테스트 후 원래 상태로 복구). `#dev-issues`는 연결 없음.
 
 ## 9. 점검 결과 (2026-10-02)
 
