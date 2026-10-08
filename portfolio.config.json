@@ -152,12 +152,8 @@
       "topic": "Team announcements. Pinned: design, schedule, rules"
     },
     {
-      "name": "team-network",
-      "topic": "Network: DC, Private Internet, DNS/DB, QoS"
-    },
-    {
-      "name": "team-cloud",
-      "topic": "Cloud: HQ, ISP-1, ISP-2"
+      "name": "team-net-cloud",
+      "topic": "Net+Cloud: DC, HQ, ISP-1, ISP-2, Private Internet, DNS/DB, QoS"
     },
     {
       "name": "team-policy",
