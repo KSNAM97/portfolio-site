@@ -41,6 +41,12 @@ function Progress({ data, lang }) {
   )
 }
 
+// raw GitHub folder of a file, so relative image links in the markdown resolve (public repos only)
+const rawBase = (p, path) => {
+  const m = /^https:\/\/github\.com\/([^/]+\/[^/]+)/.exec(p.url || '')
+  return m ? `https://raw.githubusercontent.com/${m[1]}/main/${path.slice(0, path.lastIndexOf('/') + 1)}` : null
+}
+
 // detail view: left table of contents (overview + files), right content.
 // files come from project_files, filled by scripts/sync.mjs from content/<slug>/
 function Detail({ p, t, lang }) {
@@ -105,7 +111,7 @@ function Detail({ p, t, lang }) {
         {sel === '@progress' ? (
           <Progress data={jira} lang={lang} />
         ) : sel ? (
-          sel.endsWith('.md') ? <Md>{text}</Md> : <pre>{text}</pre>
+          sel.endsWith('.md') ? <Md base={rawBase(p, sel)} cur={sel} paths={paths} onNav={setSel} repo={p.url}>{text}</Md> : <pre>{text}</pre>
         ) : (
           <>
             <img src={p.image} alt={t(p, 'title')} />
