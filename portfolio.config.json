@@ -57,6 +57,23 @@
       ],
       "url": "https://ksnam97.gitbook.io/network_guide/",
       "sort": 11
+    },
+    {
+      "slug": "network-project-gitbook",
+      "title_ko": "Network Project Docs (GitBook)",
+      "title_en": "Network Project Docs (GitBook)",
+      "summary_ko": "멀티벤더 하이브리드 네트워크 프로젝트의 설계 문서, 설정 가이드, 사이트별 검증 기록, 장애 시나리오, 트러블슈팅을 GitBook으로 정리. 문서 약 100개.",
+      "summary_en": "Design documents, configuration guides, per-site verification records, failure scenarios and troubleshooting of the multi-vendor hybrid network project, organized in GitBook (about 100 pages).",
+      "tags": [
+        "DMVPN",
+        "MPLS L3VPN",
+        "VRRP",
+        "MLAG",
+        "Wireshark",
+        "Verification"
+      ],
+      "url": "https://ksnam97.gitbook.io/network-project-gitbook/",
+      "sort": 9
     }
   ],
   "overrides": {
