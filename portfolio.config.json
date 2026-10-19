@@ -41,23 +41,6 @@
       "sort": 10
     },
     {
-      "slug": "system-wiki",
-      "title_ko": "System Wiki (GitBook)",
-      "title_en": "System Wiki (GitBook)",
-      "summary_ko": "Rocky Linux 9 기반 시스템 관리부터 쉘 스크립트, DB, Docker, Kubernetes, AWS, Python까지 7개 카테고리 90개 문서.",
-      "summary_en": "System engineering notes from Rocky Linux 9 administration to shell scripting, databases, Docker, Kubernetes, AWS and Python: 7 categories, 90 documents.",
-      "tags": [
-        "Rocky Linux",
-        "Docker",
-        "Kubernetes",
-        "Shell",
-        "AWS",
-        "Python"
-      ],
-      "url": "https://ksnam97.gitbook.io/system_wiki/",
-      "sort": 12
-    },
-    {
       "slug": "network-guide",
       "title_ko": "Network Guide (GitBook)",
       "title_en": "Network Guide (GitBook)",
@@ -75,20 +58,24 @@
       "sort": 11
     },
     {
-      "slug": "system-guide",
-      "title_ko": "System Guide (GitBook)",
-      "title_en": "System Guide (GitBook)",
-      "summary_ko": "Rocky Linux 9와 Bash 실무 명령어 가이드. 파일시스템, VI, 계정·권한, 압축, 파티션·마운트, RAID 등을 주제별 통합 정리, 트러블슈팅 치트시트, 퀵 레퍼런스로 구성.",
-      "summary_en": "Practical Rocky Linux 9 and Bash command guide covering the filesystem, VI, accounts and permissions, archiving, partitions and mounts, and RAID. Each topic has a consolidated summary, a troubleshooting cheat sheet and a quick reference.",
+      "slug": "multivendor-hybrid-network",
+      "title_ko": "멀티벤더 하이브리드 네트워크 (1인 프로젝트)",
+      "title_en": "Multi-vendor Hybrid Network (Solo Project)",
+      "summary_ko": "HQ, DC, BR1, BR2 4개 사이트를 ISP 이중화(eBGP, MPLS L3VPN)와 DMVPN Phase 3(mGRE over IPsec)로 연결. Cisco, Arista(vEOS-lab), Aruba(AOS-CX) 혼합 구성에서 VRRP, MSTP, MLAG, QoS, 화이트리스트 ACL을 구성하고 ISP-1 장애, DMVPN Hub 장애, VRRP 전환을 GNS3에서 실측 검증.",
+      "summary_en": "Four sites (HQ, DC, BR1, BR2) joined by dual-ISP eBGP with MPLS L3VPN and DMVPN Phase 3 (mGRE over IPsec). Mixed Cisco, Arista (vEOS-lab) and Aruba (AOS-CX) with VRRP, MSTP, MLAG, QoS and whitelist ACLs, verified in GNS3 with ISP-1 failure, DMVPN hub failure and VRRP failover tests.",
       "tags": [
-        "Rocky Linux",
-        "Bash",
-        "VI",
-        "RAID",
-        "Permissions"
+        "DMVPN",
+        "MPLS L3VPN",
+        "eBGP",
+        "OSPF",
+        "VRRP",
+        "MLAG",
+        "QoS",
+        "GNS3"
       ],
-      "url": "https://ksnam97.gitbook.io/system/",
-      "sort": 13
+      "image": "/topology.webp",
+      "featured": true,
+      "sort": 0
     }
   ],
   "overrides": {
@@ -138,9 +125,23 @@
         "configs/",
         "verification/"
       ]
+    },
+    {
+      "slug": "multivendor-hybrid-network",
+      "repo": "KSNAM97/network-project",
+      "include": [
+        "README.md",
+        "docs/",
+        "configs/"
+      ]
     }
   ],
-  "jira": [],
+  "jira": [
+    {
+      "slug": "multivendor-hybrid-network",
+      "project_key": "KAN"
+    }
+  ],
   "jira_import": {
     "repo": "KSNAM97/network-project",
     "file": "jira/jira-tickets-3person.csv",
@@ -169,48 +170,6 @@
     "file": "slack/2026-10-02-setup-summary.md",
     "channels": [
       "announcements"
-    ]
-  },
-  "paused": {
-    "note": "Hidden until the team project starts. To show it again, move these back to extra_projects / sources / jira, make network-project public (or provide a read token), and restore public/topology.webp.",
-    "extra_projects": [
-      {
-        "slug": "multivendor-hybrid-network",
-        "title_ko": "멀티벤더 하이브리드 네트워크 (팀 프로젝트)",
-        "title_en": "Multi-vendor Hybrid Network (Team Project)",
-        "summary_ko": "HQ/DC/BR1/BR2 4개 사이트를 ISP 이중화(eBGP)와 DMVPN Phase3(mGRE over IPsec)으로 연결. DC는 Arista cEOS, 나머지는 Cisco이며 DC 서버 VLAN에 DNS 이중화와 DB 서버를 배치. HSRP/VARP, QoS, 화이트리스트 ACL, 장애 실측까지 GNS3로 구현.",
-        "summary_en": "Four sites (HQ/DC/BR1/BR2) joined by dual-ISP eBGP and DMVPN Phase 3 (mGRE over IPsec). Arista cEOS in the DC, Cisco elsewhere, with redundant DNS and a DB server in the DC server VLAN. HSRP/VARP, QoS, whitelist ACLs and failover tests built in GNS3.",
-        "tags": [
-          "DMVPN",
-          "IPsec",
-          "eBGP",
-          "OSPF",
-          "HSRP",
-          "QoS",
-          "Arista cEOS",
-          "GNS3"
-        ],
-        "image": "/topology.webp",
-        "featured": true,
-        "sort": 0
-      }
-    ],
-    "sources": [
-      {
-        "slug": "multivendor-hybrid-network",
-        "repo": "KSNAM97/network-project",
-        "include": [
-          "README.md",
-          "docs/",
-          "configs/"
-        ]
-      }
-    ],
-    "jira": [
-      {
-        "slug": "multivendor-hybrid-network",
-        "project_key": "KAN"
-      }
     ]
   }
 }
