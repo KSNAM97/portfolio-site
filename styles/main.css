@@ -103,7 +103,7 @@ img.next-image {
 .md pre code { background: none; padding: 0 }
 .md blockquote { margin: 0 0 .8em; padding-left: 12px; border-left: 3px solid #8886; opacity: .85 }
 .md hr { border: 0; border-top: 1px solid #8884; margin: 1em 0 }
-.md img { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 28px; margin: 2px 4px 2px 0; vertical-align: middle; border: 0; border-radius: 0 }
+.md img[src*="shields.io"] { display: inline-block; width: auto; max-width: 100%; height: auto; max-height: 28px; margin: 2px 4px 2px 0; vertical-align: middle; border: 0; border-radius: 0; background: none }
 
 /* jira progress */
 .bar { display: flex; height: 10px; border-radius: 6px; background: #8883; overflow: hidden }
