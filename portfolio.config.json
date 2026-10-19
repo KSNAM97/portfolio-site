@@ -20,6 +20,7 @@
   },
   "github_user": "KSNAM97",
   "include": [
+    "network-project",
     "cisco-dmvpn-ipsec-network"
   ],
   "extra_projects": [
@@ -56,26 +57,6 @@
       ],
       "url": "https://ksnam97.gitbook.io/network_guide/",
       "sort": 11
-    },
-    {
-      "slug": "multivendor-hybrid-network",
-      "title_ko": "멀티벤더 하이브리드 네트워크 (1인 프로젝트)",
-      "title_en": "Multi-vendor Hybrid Network (Solo Project)",
-      "summary_ko": "HQ, DC, BR1, BR2 4개 사이트를 ISP 이중화(eBGP, MPLS L3VPN)와 DMVPN Phase 3(mGRE over IPsec)로 연결. Cisco, Arista(vEOS-lab), Aruba(AOS-CX) 혼합 구성에서 VRRP, MSTP, MLAG, QoS, 화이트리스트 ACL을 구성하고 ISP-1 장애, DMVPN Hub 장애, VRRP 전환을 GNS3에서 실측 검증.",
-      "summary_en": "Four sites (HQ, DC, BR1, BR2) joined by dual-ISP eBGP with MPLS L3VPN and DMVPN Phase 3 (mGRE over IPsec). Mixed Cisco, Arista (vEOS-lab) and Aruba (AOS-CX) with VRRP, MSTP, MLAG, QoS and whitelist ACLs, verified in GNS3 with ISP-1 failure, DMVPN hub failure and VRRP failover tests.",
-      "tags": [
-        "DMVPN",
-        "MPLS L3VPN",
-        "eBGP",
-        "OSPF",
-        "VRRP",
-        "MLAG",
-        "QoS",
-        "GNS3"
-      ],
-      "image": "/topology.webp",
-      "featured": true,
-      "sort": 0
     }
   ],
   "overrides": {
@@ -114,6 +95,25 @@
         "OSPF",
         "NTP"
       ]
+    },
+    "network-project": {
+      "title_ko": "멀티벤더 하이브리드 네트워크 (1인 프로젝트)",
+      "title_en": "Multi-vendor Hybrid Network (Solo Project)",
+      "summary_ko": "HQ, DC, BR1, BR2 4개 사이트를 ISP 이중화(eBGP, MPLS L3VPN)와 DMVPN Phase 3(mGRE over IPsec)로 연결. Cisco, Arista(vEOS-lab), Aruba(AOS-CX) 혼합 구성에서 VRRP, MSTP, MLAG, QoS, 화이트리스트 ACL을 구성하고 ISP-1 장애, DMVPN Hub 장애, VRRP 전환을 GNS3에서 실측 검증.",
+      "summary_en": "Four sites (HQ, DC, BR1, BR2) joined by dual-ISP eBGP with MPLS L3VPN and DMVPN Phase 3 (mGRE over IPsec). Mixed Cisco, Arista (vEOS-lab) and Aruba (AOS-CX) with VRRP, MSTP, MLAG, QoS and whitelist ACLs, verified in GNS3 with ISP-1 failure, DMVPN hub failure and VRRP failover tests.",
+      "tags": [
+        "DMVPN",
+        "MPLS L3VPN",
+        "eBGP",
+        "OSPF",
+        "VRRP",
+        "MLAG",
+        "QoS",
+        "GNS3"
+      ],
+      "image": "/topology.webp",
+      "featured": true,
+      "sort": 0
     }
   },
   "sources": [
@@ -127,18 +127,19 @@
       ]
     },
     {
-      "slug": "multivendor-hybrid-network",
+      "slug": "network-project",
       "repo": "KSNAM97/network-project",
       "include": [
         "README.md",
         "docs/",
-        "configs/"
+        "configs/",
+        "verification/"
       ]
     }
   ],
   "jira": [
     {
-      "slug": "multivendor-hybrid-network",
+      "slug": "network-project",
       "project_key": "KAN"
     }
   ],
