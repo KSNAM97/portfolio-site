@@ -3,8 +3,8 @@
     "name": "KiSuk Nam",
     "role_ko": "Network & Infra Engineer 지망",
     "role_en": "Aspiring Network & Infra Engineer",
-    "bio_ko": "GNS3 / Cisco IOS 기반 네트워크 실습 → Linux · Docker · K8s · Cloud 로 확장 중. Learning by building & breaking.",
-    "bio_en": "Hands-on labs with GNS3 / Cisco IOS, expanding into Linux, Docker, K8s and Cloud. Learning by building & breaking.",
+    "bio_ko": "멀티벤더(Cisco · Arista · Aruba) WAN을 직접 구축하고, 장애를 일으켜 라우팅·이중화를 패킷으로 검증하는 네트워크 엔지니어 지망생.",
+    "bio_en": "Aspiring network engineer. I build multi-vendor WANs (Cisco, Arista, Aruba), break them on purpose, and verify routing and redundancy at the packet level.",
     "email": "nks026400@gmail.com",
     "github": "https://github.com/KSNAM97",
     "stack": [
