@@ -15,7 +15,7 @@
 
 ```
 [원본 GitHub repo]                    [GitHub Actions: portfolio-site]            [Supabase]                 [Vercel]
- network-project          push → notify ─┐
+ multivendor-wan-dmvpn-mpls-lab          push → notify ─┐
  cisco-dmvpn-ipsec-network push → notify ─┼─▶ sync-portfolio (매시간 + 즉시) ─▶ projects / site / project_files ─▶ ksnam97.com
  portfolio.config.json  ──────────────────┘            │                          (브라우저가 공개 키로 읽기만)
                                                        └─▶ Jira KAN 진행률(숫자만) ─▶ site.jira_progress:<slug>
@@ -30,7 +30,7 @@
 | repo | 공개 여부 | 역할 |
 |---|---|---|
 | `KSNAM97/portfolio-site` | public | 사이트 코드, 동기화 스크립트, Actions |
-| `KSNAM97/network-project` | private (2026-10-06 비공개 전환, 사이트에서 숨김) | 멀티벤더 하이브리드 네트워크 팀 프로젝트 문서·컨피그. 프로젝트 시작 전이라 보류 |
+| `KSNAM97/multivendor-wan-dmvpn-mpls-lab`(2026-10-23 이름 변경, 이전 이름 network-project) | private (2026-10-06 비공개 전환, 사이트에서 숨김) | 멀티벤더 하이브리드 네트워크 팀 프로젝트 문서·컨피그. 프로젝트 시작 전이라 보류 |
 | `KSNAM97/cisco-dmvpn-ipsec-network` | public | DMVPN + IPsec 프로젝트 컨피그 |
 
 - 사이트에 노출되는 파일은 `portfolio.config.json`의 `sources[].include`로 정합니다. 현재: `README.md`, `docs/`, `configs/`(DMVPN은 `verification/`도).
@@ -47,7 +47,7 @@
 | portfolio-site | `slack-setup` | 수동 (`dry`/`create`) | 설정의 Slack 채널 생성. 이미 있으면 건너뜀 |
 | portfolio-site | `slack-announce` | 수동 (`dry`/`post`) | 공지 문서를 팀 채널에 게시. 재실행하면 중복 게시 |
 | portfolio-site | `ops-log` | 이 문서 변경 push, 수동 | 이 문서를 `ops_log`에 백업 |
-| network-project, cisco-dmvpn-ipsec-network | `notify-portfolio` | 해당 폴더 push, 수동 | portfolio-site의 `sync-portfolio`를 즉시 실행 |
+| multivendor-wan-dmvpn-mpls-lab, cisco-dmvpn-ipsec-network | `notify-portfolio` | 해당 폴더 push, 수동 | portfolio-site의 `sync-portfolio`를 즉시 실행 |
 
 ## 5. 시크릿·토큰 목록 (값은 기록하지 않음)
 
@@ -58,7 +58,7 @@
 | portfolio-site (Actions) | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN` | Jira 읽기/이슈 생성 | 토큰 만료일 확인 필요 |
 | portfolio-site (Actions) | `SLACK_WEBHOOK_URL` | 동기화 알림 | 웹훅 1개 |
 | portfolio-site (Actions) | `SLACK_BOT_TOKEN` | 채널 생성, 공지 게시 | `channels:manage`, `channels:read`, `chat:write`. 작업 끝나면 권한 축소 권장 |
-| network-project, cisco-dmvpn-ipsec-network (Actions) | `PORTFOLIO_DISPATCH_TOKEN` | 동기화 즉시 실행 | fine-grained, portfolio-site만, Actions: Read and write |
+| multivendor-wan-dmvpn-mpls-lab, cisco-dmvpn-ipsec-network (Actions) | `PORTFOLIO_DISPATCH_TOKEN` | 동기화 즉시 실행 | fine-grained, portfolio-site만, Actions: Read and write |
 | Vercel (Production) | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 사이트가 DB를 읽음 | 공개 키(publishable). 공개돼도 안전 |
 | Vercel (Production) | `SLACK_CONTACT_WEBHOOK_URL` | 문의 폼 → Slack | 웹훅 URL. 등록 후 Redeploy 필요 |
 | Vercel (Production) | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN` | `/api/jira-progress`가 Jira를 직접 조회(진행 현황 실시간 반영) | 읽기만 사용. 없으면 DB에 저장된 값으로 폴백 |
@@ -109,6 +109,7 @@
 16. (2026-10-08) 일정을 다음 주(2026-10-12)부터 3.5주(11-04까지)로 변경. network-project의 일정·README·설계 문서를 압축 일정으로 갱신하고, Jira 제목의 [W1]~[W6] 표기는 그대로 두고 실제 일정과의 대응표를 `docs/schedule-2person.md`에 추가. 이 날 `#team-policy`에 policy 담당자를 초대하고, Jira policy 이슈 15개에 담당자(6개)와 관찰자(9개)로 지정.
 17. (2026-10-08) 팀원 이탈로 1인 체제(남기석)로 전환. Jira에서 해당 팀원의 프로젝트 역할, 담당자(6개), 관찰자(9개)를 제거하고, GitHub `network-project` 협업자를 제거. network-project 문서는 1인 일정(`docs/schedule.md`)으로 정리하고 2인·3인 일정은 `docs/archive/`로 이동. Slack 워크스페이스의 해당 계정은 공개 채널 멤버 제거가 제한되어 있어 소유자의 계정 비활성화가 필요하며, Jira 사이트 계정 비활성화도 Atlassian 관리 화면에서 소유자가 처리해야 함.
 18. (2026-10-19) 멀티벤더 카드·소스·Jira 진행률을 다시 표시하고 DMVPN 카드와 같은 형태(`include` + `overrides`, 슬러그 `network-project`)로 변경(`paused` 항목을 `extra_projects`/`sources`/`jira`로 복원, `public/topology.webp` 복원). 카드 문구는 1인 프로젝트와 현재 구성(MPLS L3VPN, VRRP, MLAG)에 맞게 수정. `network-project`는 공개 상태. GitBook 카드는 `network`가 들어간 `network-wiki`, `network-guide`만 남기고 `system-wiki`, `system-guide`는 제거(원본 GitBook 사이트는 그대로).
+19. (2026-10-23) 저장소 `network-project`를 `multivendor-wan-dmvpn-mpls-lab`로 이름 변경. `portfolio.config.json`의 `include`, `overrides` 키, `sources`와 `jira`의 슬러그, `repo` 필드 3곳을 새 이름으로 맞춤. 동기화가 슬러그 기준이라 사이트의 멀티벤더 카드가 새 슬러그로 다시 만들어지고 이전 슬러그 행은 삭제됨. Jira–GitHub 앱의 접근 범위와 Actions 시크릿은 새 저장소 이름으로 다시 확인할 것.
 
 ## 9. 점검 결과 (2026-10-02)
 
@@ -135,6 +136,6 @@
 - GitHub 설정에서 `portfolio-source-read` 토큰(읽기용, 더 이상 쓰이지 않음) 폐기. 시크릿 `SOURCE_REPO_TOKEN`은 2026-10-02에 삭제 완료.
 - Slack 봇 권한(`channels:manage`, `chat:write`) 축소 또는 `SLACK_BOT_TOKEN` 삭제.
 - 팀원을 Slack 채널과 GitHub에 초대. `final-project` 팀 공지를 `#announcements`에 게시.
-- Jira–GitHub 연결은 완료됨(변경 이력 14). 연결 범위는 `network-project` 하나로 제한됨.
+- Jira–GitHub 연결은 완료됨(변경 이력 14). 연결 범위는 `multivendor-wan-dmvpn-mpls-lab` 하나로 제한됨.
 - 도메인 `ksnam97.com`은 2027-09-10 만료, 자동 갱신 꺼짐. 호스티드 존 월 $0.50.
 - `slack-announce`는 재실행하면 공지가 중복 게시됩니다.

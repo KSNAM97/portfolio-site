@@ -1,5 +1,5 @@
 name: slack-announce
-# Posts slack/slack-announcement.md (from the network-project repo) to the team channels. Run it once: a second run posts again.
+# Posts slack/slack-announcement.md (from the multivendor-wan-dmvpn-mpls-lab repo) to the team channels. Run it once: a second run posts again.
 on:
   workflow_dispatch:
     inputs:
